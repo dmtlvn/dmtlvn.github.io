@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>EMD is just MSE (kinda) &#8212; Neural Pasta</title>
+    <title>EMD Is Just MSE (Kinda) &#8212; Neural Pasta</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="NRLHL PA`SSTA" href="../intro.html" />
+    <link rel="prev" title="NRLHL PASSTA" href="../intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -110,14 +110,14 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    NRLHL PA`SSTA
+                    NRLHL PASSTA
                 </a>
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   EMD is just MSE (kinda)
+   EMD Is Just MSE (Kinda)
   </a>
  </li>
 </ul>
@@ -179,7 +179,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/emd_study_pt1/main.ipynb"
+        <a href="https://mybinder.org/v2/gh/dmtlvn/dmtlvn.github.io/master?urlpath=tree/emd_study_pt1/main.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -222,7 +222,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book"
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -239,7 +239,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Femd_study_pt1/main.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2Femd_study_pt1/main.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -328,7 +328,7 @@ title="Print to PDF"
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   EMD is just MSE (kinda)
+   EMD Is Just MSE (Kinda)
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
@@ -370,7 +370,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>EMD is just MSE (kinda)</h1>
+                <h1>EMD Is Just MSE (Kinda)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -382,7 +382,7 @@ title="Print to PDF"
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   EMD is just MSE (kinda)
+   EMD Is Just MSE (Kinda)
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
@@ -426,7 +426,7 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="emd-is-just-mse-kinda">
-<h1>EMD is just MSE (kinda)<a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h1>
+<h1>EMD Is Just MSE (Kinda)<a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h1>
 <p>Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there’s at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a>. Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compate distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is <a class="reference external" href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wasserstein distance</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Earth_mover%27s_distance">Earth Mover’s Distance (EMD)</a> in particular. So let’s talk about one particular interpretation of EMD.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="earth-mover-s-distance-primer">
@@ -575,17 +575,17 @@ title="Print to PDF"
 <div class="math notranslate nohighlight">
 \[ \phi(h,g) \leq f(\psi(h,g)) \]</div>
 <p>For <span class="math notranslate nohighlight">\(\phi = W\)</span> and <span class="math notranslate nohighlight">\(\psi = \|\cdot\|_1\)</span> we have proved that this function is an identity function <span class="math notranslate nohighlight">\(f(x) = x\)</span>, for example.</p>
-<p>When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitue for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure difference between two trajectories by a sort of variational error. Let’s recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to <span class="math notranslate nohighlight">\(P = g - h\)</span>, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>. Together with the fact, that EMD is additive we have the following:</p>
+<p>When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitue for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure difference between two trajectories by a sort of variational error. Let’s recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to <span class="math notranslate nohighlight">\(P = g - h\)</span>, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory <span class="math notranslate nohighlight">\(s = \{ h, s_1, s_2, ... s_{T-1}, g \}\)</span>. Together with the fact, that EMD is additive we have the following:</p>
 <div class="math notranslate nohighlight">
-\[ W(h, g) = \sum_{t} W(h, h + d_t) \]</div>
+\[ W(h, g) = \sum_{t=0}^{T} W(s_t, s_{t+1}) \]</div>
 <p>From this we can define a variational error for a similarity measure <span class="math notranslate nohighlight">\(\phi\)</span> generating an optimization trajectory <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[ \delta(\phi) = \sum_{t} W(h, h + d_t) - W(h, g) \geq 0\]</div>
+\[ \delta(\phi) = \sum_{t} W(s_t, s_{t+1}) - W(h, g) \geq 0\]</div>
 <p>For an optimal EMD trajectory <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span>, and more the trajectory deviates from the optimal, the larger this variational error would become. When <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span> then there’s no difference which measure to optimize - EMD or <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
 <p>The fact that there exist infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:</p>
 <div class="math notranslate nohighlight">
-\[ d_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ \sum_t w_t = 1 \]</div>
-<p>Essentially, it moves from <span class="math notranslate nohighlight">\(h\)</span> to <span class="math notranslate nohighlight">\(g\)</span> in a straight lineby making <span class="math notranslate nohighlight">\(n\)</span> transports for each step <span class="math notranslate nohighlight">\(d_t\)</span>. And nobody said we couldn’t move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>. There are several objective functions which can enforce that:</p>
+\[ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ 0 \leq w_t &lt; w_{t+1} \leq 1 \]</div>
+<p>Essentially, it moves from <span class="math notranslate nohighlight">\(h\)</span> to <span class="math notranslate nohighlight">\(g\)</span> in a straight line by making <span class="math notranslate nohighlight">\(n\)</span> transports for each step <span class="math notranslate nohighlight">\(d_t\)</span>. And nobody said we couldn’t move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to <span class="math notranslate nohighlight">\(\{ s_t \}\)</span>. There are several objective functions which can enforce that:</p>
 <ol class="simple">
 <li><p>The easiest one and most straightforward is a good old Euclidean distance</p></li>
 <li><p>The fancier one is a cosine similarity, which reduces an angle between two vectors by moving along the shortest arc, which when projected onto our histogram simplex coincides with the vector <span class="math notranslate nohighlight">\(P\)</span> as well. The only difference form the Euclidean distance is that this projection scales steps differently.</p></li>
@@ -593,9 +593,9 @@ title="Print to PDF"
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="actual-optimization">
 <h1>Actual Optimization<a class="headerlink" href="#actual-optimization" title="Permalink to this headline">#</a></h1>
-<p>The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step <span class="math notranslate nohighlight">\(h_t\)</span> will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until <span class="math notranslate nohighlight">\(W(h_t, g) &lt; \varepsilon\)</span>. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:</p>
+<p>The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step <span class="math notranslate nohighlight">\(s_t\)</span> will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until <span class="math notranslate nohighlight">\(W(s_t, g) &lt; \varepsilon\)</span>. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:</p>
 <div class="math notranslate nohighlight">
-\[ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(h, h + d_t) - W(h,g) \right) \geq 0 \]</div>
+\[ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(s_t, s_{t+1}) - W(h,g) \right) \geq 0 \]</div>
 <p>For histogram sampling we going to use <a class="reference external" href="http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html">this</a> method, which allows to sample uniformly from a simplex for <span class="math notranslate nohighlight">\(p = 1\)</span>.</p>
 <p>Results are in the table below:</p>
 <table class="colwidths-auto table">
@@ -752,7 +752,7 @@ title="Print to PDF"
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">NRLHL PA`SSTA</p>
+            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
         </div>
     </a>
 </div>

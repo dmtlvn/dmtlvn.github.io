@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# # EMD is just MSE (kinda)
+# # EMD Is Just MSE (Kinda)
 # 
 # Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there's at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence). Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compate distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is [Wasserstein distance](https://en.wikipedia.org/wiki/Wasserstein_metric) and [Earth Mover's Distance (EMD)](https://en.wikipedia.org/wiki/Earth_mover%27s_distance) in particular. So let's talk about one particular interpretation of EMD.
 
@@ -572,29 +572,29 @@ plt.tight_layout();
 # 
 # For $\phi = W$ and $\psi = \|\cdot\|_1$ we have proved that this function is an identity function $f(x) = x$, for example.
 # 
-# When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitue for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure difference between two trajectories by a sort of variational error. Let's recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to $P = g - h$, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory $\{ d_t \}$. Together with the fact, that EMD is additive we have the following:
+# When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitue for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure difference between two trajectories by a sort of variational error. Let's recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to $P = g - h$, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory $s = \{ h, s_1, s_2, ... s_{T-1}, g \}$. Together with the fact, that EMD is additive we have the following:
 # 
-# $$ W(h, g) = \sum_{t} W(h, h + d_t) $$
+# $$ W(h, g) = \sum_{t=0}^{T} W(s_t, s_{t+1}) $$
 # 
 # From this we can define a variational error for a similarity measure $\phi$ generating an optimization trajectory $\{ d_t \}$:
 # 
-# $$ \delta(\phi) = \sum_{t} W(h, h + d_t) - W(h, g) \geq 0$$
+# $$ \delta(\phi) = \sum_{t} W(s_t, s_{t+1}) - W(h, g) \geq 0$$
 # 
 # For an optimal EMD trajectory $\delta(\phi) = 0$, and more the trajectory deviates from the optimal, the larger this variational error would become. When $\delta(\phi) = 0$ then there's no difference which measure to optimize - EMD or $\phi$. 
 # 
 # The fact that there exist infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:
 # 
-# $$ d_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ \sum_t w_t = 1 $$
+# $$ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ 0 \leq w_t < w_{t+1} \leq 1 $$
 # 
-# Essentially, it moves from $h$ to $g$ in a straight lineby making $n$ transports for each step $d_t$. And nobody said we couldn't move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to $\{ d_t \}$. There are several objective functions which can enforce that:
+# Essentially, it moves from $h$ to $g$ in a straight line by making $n$ transports for each step $d_t$. And nobody said we couldn't move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to $\{ s_t \}$. There are several objective functions which can enforce that:
 # 1. The easiest one and most straightforward is a good old Euclidean distance
 # 2. The fancier one is a cosine similarity, which reduces an angle between two vectors by moving along the shortest arc, which when projected onto our histogram simplex coincides with the vector $P$ as well. The only difference form the Euclidean distance is that this projection scales steps differently.
 
 # # Actual Optimization
 # 
-# The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms $h$ and $g$ we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step $h_t$ will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until $W(h_t, g) < \varepsilon$. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:
+# The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms $h$ and $g$ we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step $s_t$ will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until $W(s_t, g) < \varepsilon$. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:
 # 
-# $$ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(h, h + d_t) - W(h,g) \right) \geq 0 $$
+# $$ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(s_t, s_{t+1}) - W(h,g) \right) \geq 0 $$
 # 
 # For histogram sampling we going to use [this](http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html) method, which allows to sample uniformly from a simplex for $p = 1$. 
 # 
