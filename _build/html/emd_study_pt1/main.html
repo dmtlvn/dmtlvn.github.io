@@ -1,0 +1,783 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>EMD is just MSE (kinda) &#8212; Neural Pasta</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="NRLHL PA`SSTA" href="../intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pasta</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    NRLHL PA`SSTA
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   EMD is just MSE (kinda)
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/emd_study_pt1/main.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Femd_study_pt1/main.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/emd_study_pt1/main.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   EMD is just MSE (kinda)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#earth-mover-s-distance-primer">
+   Earth Mover’s Distance Primer
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#geometric-view">
+   Geometric View
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#upper-bounds">
+   Upper Bounds
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variational-error">
+   Variational Error
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#actual-optimization">
+   Actual Optimization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>EMD is just MSE (kinda)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   EMD is just MSE (kinda)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#earth-mover-s-distance-primer">
+   Earth Mover’s Distance Primer
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#geometric-view">
+   Geometric View
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#upper-bounds">
+   Upper Bounds
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variational-error">
+   Variational Error
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#actual-optimization">
+   Actual Optimization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="emd-is-just-mse-kinda">
+<h1>EMD is just MSE (kinda)<a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h1>
+<p>Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there’s at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a>. Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compate distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is <a class="reference external" href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wasserstein distance</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Earth_mover%27s_distance">Earth Mover’s Distance (EMD)</a> in particular. So let’s talk about one particular interpretation of EMD.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="earth-mover-s-distance-primer">
+<h1>Earth Mover’s Distance Primer<a class="headerlink" href="#earth-mover-s-distance-primer" title="Permalink to this headline">#</a></h1>
+<p>We often deal with histograms when working with distributions. What is an EMD between two histograms? Generally speaking, it is a solution to an <a class="reference external" href="https://en.wikipedia.org/wiki/Transportation_theory_(mathematics)">optimal transport problem</a>. The popular explanation goes like this. Imagine our histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> being two piles of dirt, both having mass 1. Let’s set a cost of moving a unit of dirt from location <span class="math notranslate nohighlight">\(i\)</span> to location <span class="math notranslate nohighlight">\(j\)</span> as <span class="math notranslate nohighlight">\(c_{ij} \geq 0\)</span>. It is often set to be just the distance between <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>: <span class="math notranslate nohighlight">\(c_{ij} = |i - j|\)</span>. And let’s define transport <span class="math notranslate nohighlight">\(p_{ij}\)</span> as the amount of dirt to be moved between locations <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>. The amount of dirt in two piles is the same, so there exists at least one transport plan <span class="math notranslate nohighlight">\(P = \{ p_{ij} \}\)</span> which transforms one pile into another. Each such plan has a total cost associated with it as <span class="math notranslate nohighlight">\( C = \sum_{i,j} p_{ij} |i - j| \)</span>. The EMD then is the minimal total cost of reshaping one pile into another.</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) = \min_{P \in \Pi} \sum_{i,j} p_{ij} |i - j| \]</div>
+<p>where <span class="math notranslate nohighlight">\(\Pi\)</span> is a set of all possible transport plans. This is a standard formulation and interpretation of the Earth Mover’s Distance. But let’s fix one anoying flaw in this formulation. Consider that the maximum possible cost for a transport plan happens when the whole mass must be transfered from the first bin to the last one. Therefore EMD has a trivial upper bound:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) &lt; n \]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of bins in the histogram. We usually do not want our distance measure to grow just because we made our histograms more detailed. To fix that and make things prettier let’s simply scale the EMD:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) = \min_{P \in \Pi} \frac{1}{n} \sum_{i,j} p_{ij} |i - j| \]</div>
+<p>Fun Fact: the algorithm for EMD between two histograms looks exactly like a bulldozer which moves left to right and pushes excess dirt into “holes”. It even can be expressed with a closed-form formula:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) = \frac{1}{n} \sum_{m=1}^{n} \left| \textstyle \sum_{i=1}^{m} h_i - \sum_{i=1}^{m} g_i \right| \]</div>
+<p>or simply speaking, it’s an integral of the absolute difference of two CDFs, represented by cumulative sums here. This formula can be implemented as a PyTorch one-liner and is easily differentiable. The gradient isn’t the most pleasant one though.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="geometric-view">
+<h1>Geometric View<a class="headerlink" href="#geometric-view" title="Permalink to this headline">#</a></h1>
+<p>But let’s look at the EMD from a different, geometric perspective. A histogram can be viewed as a vector <span class="math notranslate nohighlight">\(h = \left[ b_1, b_2, ..., b_n \right]^T, b_i \geq 0\)</span>. The sum of its components is 1 for it to represent a proper histogram. So every histogram lives on a simplex <span class="math notranslate nohighlight">\(S\)</span> spanned by unit basis vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>. Any transport plan <span class="math notranslate nohighlight">\(P\)</span> preserves the histogram normalization and every step <span class="math notranslate nohighlight">\(p_{ij}\)</span> becomes a displacement vector which keep the histogram in <span class="math notranslate nohighlight">\(S\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ h_0 = h \]</div>
+<div class="math notranslate nohighlight">
+\[ h_N = g \]</div>
+<div class="math notranslate nohighlight">
+\[ h_k = h_{k-1} + p_k, h_k \in S \]</div>
+<p>Therefore:</p>
+<div class="math notranslate nohighlight">
+\[ P = g - h = \sum_{k=1}^{N} p_k\]</div>
+<p>For everything to make sense, these vectors <span class="math notranslate nohighlight">\(p_k\)</span> must be coplanar to a <span class="math notranslate nohighlight">\((i_k, j_k)\)</span> coordinate plane, where <span class="math notranslate nohighlight">\(i_k\)</span> and <span class="math notranslate nohighlight">\(j_k\)</span> are indicies of bins between which the mass exchange is performed on the step <span class="math notranslate nohighlight">\(k\)</span>. Nothings beats a good visualization, so here’s a nice 3D example:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_4_0.png" src="../_images/main_4_0.png" />
+</div>
+</div>
+<p>On the image above a histogram simplex is shown with an example of a transport plan between <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> drawn in blue. This transport plan is probably not the most optimal one and cannot serve for the EMD. Some observations we can make:</p>
+<ol class="simple">
+<li><p>For any two <span class="math notranslate nohighlight">\(n\)</span>-histograms you need no more than <span class="math notranslate nohighlight">\(n-1\)</span> steps to transform one into another. This comes from two facts:</p>
+<ol class="simple">
+<li><p>Our simplex space is exactly <span class="math notranslate nohighlight">\(n-1\)</span> dimensional</p></li>
+<li><p>We can convert between the histogram space and the simplex space by a simple change of the basis, and every vector in the simplex space is represented as a sum of no more than <span class="math notranslate nohighlight">\(n-1\)</span> basis vectors</p></li>
+</ol>
+</li>
+<li><p>Each transport plan is actually an equivalence class of more “detailed” plans, obtained by splitting any transport vector into multiple parts: <span class="math notranslate nohighlight">\(p_k = \sum_{i=1}^{m} p_{ki}\)</span> where <span class="math notranslate nohighlight">\(p_{ki} = w_{ki} p_k\)</span> with <span class="math notranslate nohighlight">\(w_{ki}\)</span> beings positive weights summing up to 1.</p></li>
+<li><p>More so, we can take all sub-steps <span class="math notranslate nohighlight">\(p_{ki}\)</span> and shuffle them in any way, which preserves continuity of the the whole transport plan and ensures that the new plan still adds up to <span class="math notranslate nohighlight">\(P\)</span>. This is true because by splitting <span class="math notranslate nohighlight">\(p_k\)</span> we just split the mass transferred, and by shuffling them we change only at which step this smaller mass is transferred, but the destination stays the same, thus the whole flow between each pair of bins stays the same.</p></li>
+</ol>
+<p>Let’s look at an example:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_6_0.png" src="../_images/main_6_0.png" />
+</div>
+</div>
+<p>As you can imagine, we can take this to the limit and split the “simple” plan into infinitesemal parts and stitch them in any zig-zag curve we like. The natural idea would be to continue the “detalization” steps recursively cutting new sub-steps in two and bend corners inward bringing the trajectory closer and closer to the vector <span class="math notranslate nohighlight">\(P\)</span> and then call it a day. Unfortunately, because this operation does not change the length of the trajectory, even in a limit we get not a vector <span class="math notranslate nohighlight">\(P\)</span>, but a fractal shape of the same length as our initial “simple” plan.</p>
+<p>How the optimal transport plan looks like then in our example? There are actually two of them. Here’s the first one:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_8_0.png" src="../_images/main_8_0.png" />
+</div>
+</div>
+<p>The plan above goes like this:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(p_1\)</span>: <span class="math notranslate nohighlight">\(h_3 \rightarrow h_2\)</span> - transport from bin 3 to bin 2</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_2\)</span>: <span class="math notranslate nohighlight">\(h_3 \rightarrow h_1\)</span> - move the excess from bin 3 to bin 1</p></li>
+</ol>
+<p>The second one is different:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_10_0.png" src="../_images/main_10_0.png" />
+</div>
+</div>
+<p>And is goes like this:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(p_1\)</span>: <span class="math notranslate nohighlight">\(h_3 \rightarrow h_2\)</span> - move all excess from bin 3 to bin 2</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_2\)</span>: <span class="math notranslate nohighlight">\(h_3 \rightarrow h_1\)</span> - move the excess from bin 2 to bin 1</p></li>
+</ol>
+<p>This plan really looks like a bulldozer pushing excess dirt into “holes”.</p>
+<p>These two plans are optimal and correspond to EMD <span class="math notranslate nohighlight">\(\approx\)</span> 0.593, but the fact that they look completely different geometrically raises a guestion: what is common between them, which guaranties the equal minimal cost?</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="upper-bounds">
+<h1>Upper Bounds<a class="headerlink" href="#upper-bounds" title="Permalink to this headline">#</a></h1>
+<p>We have clearly seen that it cannot be a length of the trajectory <span class="math notranslate nohighlight">\(p_k\)</span> as the first and the second trajectory have different lengths but the same EMD. So what could it be? Because any trajectory regardless of its shape adds up to the vector <span class="math notranslate nohighlight">\(P\)</span>, then maybe some property of the vector <span class="math notranslate nohighlight">\(P\)</span> can shed some light on the set of optimal transport plan trajectories. The instinctive first choice would be a euclidean norm of <span class="math notranslate nohighlight">\(P\)</span>. But remember, that histograms preserve a sum of elements and not their squares. So an <span class="math notranslate nohighlight">\(L_1\)</span>-norm seems to be more logical:</p>
+<div class="math notranslate nohighlight">
+\[ \|P\|_1 = \sum_{i=1}^n |h_i - g_i| \]</div>
+<p>Let’s plot EMD agains <span class="math notranslate nohighlight">\(\|P\|_1\)</span> for random histograms with various number of bins:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_13_0.png" src="../_images/main_13_0.png" />
+</div>
+</div>
+<p>Not bad! So the <span class="math notranslate nohighlight">\(L_1\)</span>-distance between two histograms provides us with the following upper bound on EMD:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) \leq \|h - g\|_1 \]</div>
+<p>The darker stripes correspond to transports with particular cost and are smeared out by bigger variability in transported mass. But don’t be distracted by the low density near the upper bound, it is just an artifact of sampling.</p>
+<p>Plots look nice, but let’s prove this upper bound just to be sure. It’s actually easy to do from the closed-form solution to the EMD:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} W(h, g) = \frac{1}{n} \sum_{m=1}^{n} \left| \textstyle \sum_{i=1}^{m} h_i - g_i \right| 
+    \leq \frac{1}{n} \sum_{m=1}^{n} \sum_{i=1}^{m} \left|  h_i - g_i \right| &lt; \\
+    &lt; \frac{1}{n} \sum_{m=1}^{n} \sum_{i=1}^{n} \left|  h_i - g_i \right|
+    = \sum_{i=1}^{n} \left|  h_i - g_i \right| = \|h - g\|_1 \end{split}\]</div>
+<p>Interestingly, in <a class="reference external" href="http://i.stanford.edu/pub/cstr/reports/cs/tr/97/1597/CS-TR-97-1597.pdf">(Cohen, 1997)</a> they prove a lower bound equal to distance between centroids of two distributions (Theorem 3.1).</p>
+<p>Because EMD is bounded by the <span class="math notranslate nohighlight">\(L_1\)</span>-norm from above, we can take the <span class="math notranslate nohighlight">\(L_1\)</span>-norm as a much simpler and easier to compute substitute for EMD. And it is also optimal in a sense that it has a constant rate of change, which means that reducing it by <span class="math notranslate nohighlight">\(\delta\)</span> will reduce EMD by a proportional amount no matter what.</p>
+<p>Now think of some monotone bounding function <span class="math notranslate nohighlight">\(f(x)\)</span> for a moment. If it has some curvature, i.e. a changing derivative, it would induce higher pressure on EMD when <span class="math notranslate nohighlight">\(f'(x) &gt; 1\)</span>, but a lower pressure when <span class="math notranslate nohighlight">\(f'(x) &lt; 1\)</span>. Manhattan distance, however, doesn’t have distinctive strong/weak regimes:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_16_0.png" src="../_images/main_16_0.png" />
+</div>
+</div>
+<p>But for the completeness let’s take a look at some other distribution similarity measures in realation to EMD and check which upper and lower bounds the induce on it.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_18_0.png" src="../_images/main_18_0.png" />
+</div>
+</div>
+<p>That a lot to digest so let’s start from the top:</p>
+<ol class="simple">
+<li><p>The first row shows a Euclidean distance. Its induced upper bound is in general slightly concave but similar to Manhattan’s</p></li>
+<li><p>A cosine between two histogram vectors is also almost concave, and is a weaker bound for almost the whole range of values.</p></li>
+<li><p>An angle between two histogram vectors a.k.a. <span class="math notranslate nohighlight">\(arccos(cos(h, g))\)</span> is more complex but close to <span class="math notranslate nohighlight">\(L_1\)</span></p></li>
+<li><p>A total variation distance (a maximum absolute difference between histograms) is also sligtly concave but close</p></li>
+<li><p>Kullback-Leibler divergence induces a highly concave bound which has almost no effect till very close to zero, but there it pushes real hard.</p></li>
+</ol>
+<p>One notable example is the Kolmogorov-Smirnov distance which is equal to a maximum absolute difference but between CDFs:</p>
+<div class="math notranslate nohighlight">
+\[ KS(h, g) = \max_{m = 1..n} \left| \sum_{i = 1}^{m} h_i - g_i \right|\]</div>
+<p>It provides and even tighter upper bound on EMD:</p>
+<div class="math notranslate nohighlight">
+\[ KS(h, g) = \max_{m=1..n} \left| \sum_{i=1}^{m} h_i - g_i \right| 
+    \leq \max_{m=1..n} \sum_{i=1}^{m} |  h_i - g_i |
+    = \sum_{i=1}^{n} | h_i - g_i | = \| h - g \|_1 \]</div>
+<div class="math notranslate nohighlight">
+\[ W(h, g) 
+    = \frac{1}{n} \sum_{m=1}^{n} \left| \textstyle \sum_{i=1}^{m} h_i - g_i \right| 
+    \leq \frac{1}{n} \sum_{k=1}^{n} \max_{m=1..n} \left| \sum_{i=1}^{m} h_i - g_i \right| 
+    = \max_{m=1..n} \left| \sum_{i=1}^{m} h_i - g_i \right| = KS(h, g) \]</div>
+<p>So we have a following hierarchy:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) \leq KS(h, g) \leq \| h - g \|_1 \]</div>
+<p>And it can be experimentally verified, that none of the metrics above can be put between KS and EMD in this hierarchy. But optimizing KS distance using gradient methods is probably even more difficult than the original EMD.</p>
+<p>You can find a more comprehensive study on hierarchies of probability metrics in <a class="reference external" href="https://math.hmc.edu/su/wp-content/uploads/sites/10/2019/06/ON-CHOOSING-AND-BOUNDING-PROBABILITY.pdf">(Gibbs, 2002)</a> by the way.</p>
+<p>As you can see, other common metrics are either very similar to <span class="math notranslate nohighlight">\(L_1\)</span> as upper bounds on EMD, or are harder to optimize, or more difficult to compute. We can think of a more complicated optimization schedule, where we use one metric, then switch for a better one, but then we start loosing a point: we want a simpler alternative to EMD. And while <span class="math notranslate nohighlight">\(L_1\)</span>-distance isn’t something ground breaking on itself, it has these nice properties which favour it among other metrics.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="variational-error">
+<h1>Variational Error<a class="headerlink" href="#variational-error" title="Permalink to this headline">#</a></h1>
+<p>We have looked at different similarity measures between histograms, and that is not a complete list. We can come up with all sorts of crazy functions of two histograms with the only real practical requirement for them to have a global minimum at the point <span class="math notranslate nohighlight">\(h = g\)</span>. And if that’s the case, all those functions will induce upper bounds on each other in a sense that for any two similarity measures <span class="math notranslate nohighlight">\(\phi(h,g)\)</span> and <span class="math notranslate nohighlight">\(\psi(h,g)\)</span> there exist a function <span class="math notranslate nohighlight">\(f(x)\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[ \phi(h,g) \leq f(\psi(h,g)) \]</div>
+<p>For <span class="math notranslate nohighlight">\(\phi = W\)</span> and <span class="math notranslate nohighlight">\(\psi = \|\cdot\|_1\)</span> we have proved that this function is an identity function <span class="math notranslate nohighlight">\(f(x) = x\)</span>, for example.</p>
+<p>When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitue for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure difference between two trajectories by a sort of variational error. Let’s recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to <span class="math notranslate nohighlight">\(P = g - h\)</span>, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>. Together with the fact, that EMD is additive we have the following:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) = \sum_{t} W(h, h + d_t) \]</div>
+<p>From this we can define a variational error for a similarity measure <span class="math notranslate nohighlight">\(\phi\)</span> generating an optimization trajectory <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \delta(\phi) = \sum_{t} W(h, h + d_t) - W(h, g) \geq 0\]</div>
+<p>For an optimal EMD trajectory <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span>, and more the trajectory deviates from the optimal, the larger this variational error would become. When <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span> then there’s no difference which measure to optimize - EMD or <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
+<p>The fact that there exist infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:</p>
+<div class="math notranslate nohighlight">
+\[ d_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ \sum_t w_t = 1 \]</div>
+<p>Essentially, it moves from <span class="math notranslate nohighlight">\(h\)</span> to <span class="math notranslate nohighlight">\(g\)</span> in a straight lineby making <span class="math notranslate nohighlight">\(n\)</span> transports for each step <span class="math notranslate nohighlight">\(d_t\)</span>. And nobody said we couldn’t move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>. There are several objective functions which can enforce that:</p>
+<ol class="simple">
+<li><p>The easiest one and most straightforward is a good old Euclidean distance</p></li>
+<li><p>The fancier one is a cosine similarity, which reduces an angle between two vectors by moving along the shortest arc, which when projected onto our histogram simplex coincides with the vector <span class="math notranslate nohighlight">\(P\)</span> as well. The only difference form the Euclidean distance is that this projection scales steps differently.</p></li>
+</ol>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="actual-optimization">
+<h1>Actual Optimization<a class="headerlink" href="#actual-optimization" title="Permalink to this headline">#</a></h1>
+<p>The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step <span class="math notranslate nohighlight">\(h_t\)</span> will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until <span class="math notranslate nohighlight">\(W(h_t, g) &lt; \varepsilon\)</span>. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:</p>
+<div class="math notranslate nohighlight">
+\[ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(h, h + d_t) - W(h,g) \right) \geq 0 \]</div>
+<p>For histogram sampling we going to use <a class="reference external" href="http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html">this</a> method, which allows to sample uniformly from a simplex for <span class="math notranslate nohighlight">\(p = 1\)</span>.</p>
+<p>Results are in the table below:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Bins</p></th>
+<th class="head"><p>lr</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\varepsilon\)</span></p></th>
+<th class="head"><p>Closed Form, %</p></th>
+<th class="head"><p>KS bound, %</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(L_1\)</span> bound, %</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(L_2\)</span> bound, %</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>0.001</p></td>
+<td><p>0.01</p></td>
+<td><p>576%</p></td>
+<td><p>735%</p></td>
+<td><p>57%</p></td>
+<td><p><strong>6%</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p>0.001</p></td>
+<td><p>0.01</p></td>
+<td><p>645%</p></td>
+<td><p>1590%</p></td>
+<td><p>74%</p></td>
+<td><p><strong>8%</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>50</p></td>
+<td><p>0.001</p></td>
+<td><p>0.01</p></td>
+<td><p>431%</p></td>
+<td><p>2546%</p></td>
+<td><p>91%</p></td>
+<td><p><strong>11%</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>100</p></td>
+<td><p>0.001</p></td>
+<td><p>0.01</p></td>
+<td><p>173%</p></td>
+<td><p>1584%</p></td>
+<td><p>70%</p></td>
+<td><p><strong>19%</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>0.0001</p></td>
+<td><p>0.001</p></td>
+<td><p>1117%</p></td>
+<td><p>1078%</p></td>
+<td><p>79%</p></td>
+<td><p><strong>1.2%</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p>0.0001</p></td>
+<td><p>0.001</p></td>
+<td><p>3398%</p></td>
+<td><p>2674%</p></td>
+<td><p>109%</p></td>
+<td><p><strong>1.7%</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>50</p></td>
+<td><p>0.0001</p></td>
+<td><p>0.001</p></td>
+<td><p>1089%</p></td>
+<td><p>10262%</p></td>
+<td><p>178%</p></td>
+<td><p><strong>0.9%</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>100</p></td>
+<td><p>0.0001</p></td>
+<td><p>0.001</p></td>
+<td><p>21094%</p></td>
+<td><p>29750%</p></td>
+<td><p>216%</p></td>
+<td><p><strong>0.8%</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>As expected, the Euclidean distance performs the best in terms of the variational error. The error is reduced with the learning rate, which means that it comes mostly from the jittering near the minimum. The same results are for the cosine similarity as well, so they are ommited.</p>
+<p>But interestingly enough, the values for the closed-form solution are just off the charts, even compared to the <span class="math notranslate nohighlight">\(L_1\)</span> distance. What’s happening there which produces such crazy errors? Let’s examine one optimization curve:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_23_0.png" src="../_images/main_23_0.png" />
+</div>
+</div>
+<p>We can clearly see that <span class="math notranslate nohighlight">\(L_1\)</span> objective, for comparison, converges order of magnitude faster than a closed-form solution to the EMD: 2000 vs 20 000 steps. Also the trajectory near the minimum speaks for itself: closed-form objective is much more jagged, which slows down convergence and leads to tons of suboptimal steps and a ridiculous accumulation of error as a result. And the finer the steps get, the more error they accumulate.</p>
+<p>We can get a feeling of why this happens by looking at the derivative of a closed-form solution. Recall that:</p>
+<div class="math notranslate nohighlight">
+\[ W(h, g) = \frac{1}{n} \sum_{m=1}^{n} \left| \textstyle \sum_{i=1}^{m} h_i - g_i \right| \]</div>
+<p>Then its derivative with respect to <span class="math notranslate nohighlight">\(h\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial W}{\partial h_k} 
+    = \frac{1}{n} \sum_{m=k}^{n} \text{sign} \left( \textstyle \sum_{i=1}^{m} h_i - g_i \right) \]</div>
+<p>The graph of the derivative is shown below:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_25_0.png" src="../_images/main_25_0.png" />
+</div>
+</div>
+<p>Definetely not the best function to use along gradient methods, with lots of descrete jumps which cause that jaggedness of error curve. I bet the actual trajectory zig-zags like crazy as it tries to move along a slanted line with discrete steps. Also a fun fact is that the derivative has more terms for the bins with smaller indicies. This makes a gradient for first bin more noisy then for the last one, which is somewhat arbitrary.</p>
+<p>The same is true for the KS distance, as its gradient depends on whether a particular index is a maximal CDF difference, which jumps all the time and is also very noisy, which leads to the same error accumulation problem. We can observe that from the results.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
+<p>So today we’ve learned that:</p>
+<ol class="simple">
+<li><p>Any similarity measure induces an upper bound on any other similarity measure and proved <span class="math notranslate nohighlight">\(L_1\)</span> and Kolmogorov-Smirnov upper bounds on EMD, which are optimal in sense that they are linear and uniform.</p></li>
+<li><p><span class="math notranslate nohighlight">\(L_2\)</span> distance despite not being equal to the EMD produces optimization trajectories which correspond to valid transport plans, which makes it equivalent to the EMD in that sense</p></li>
+<li><p>Optimizing the exact closed-form solution to the EMD is worse than <span class="math notranslate nohighlight">\(L_1\)</span> or <span class="math notranslate nohighlight">\(L_2\)</span> surrogates in terms of the EMD itself, as instabilities in the gradient lead to huge accumulation of variational error.</p></li>
+</ol>
+<p>All of that to just conlude, that if you need to match histograms using gradient methods, then you can just use MSE or MAE and don’t overthink things when unnecessary.</p>
+<p>And by the way, remember, how we glanced over the Euclidean distance:</p>
+<blockquote>
+<div><p><em>The instinctive first choice would be a euclidean norm of <span class="math notranslate nohighlight">\(P\)</span>. But remember, that…</em></p>
+</div></blockquote>
+<p>… and then dived into all the upper bounds stuff? So we have also probably learned to listen to our intuition a bit more.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_28_0.png" src="../_images/main_28_0.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./emd_study_pt1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">NRLHL PA`SSTA</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Dmytro Levin<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

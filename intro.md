@@ -1,11 +1,15 @@
-# Welcome to your Jupyter Book
+# **NRLHL PASSTA**
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+**NEURAL PASTA**
 
-Check out the content pages bundled with this sample book to see more.
+*ML Research shitposting is done here.*
 
-```{tableofcontents}
-```
+-----------------------------------
+
+#### [EMD Is Just MSE (Kinda)](emd_study_pt1/main)
+
+**TL;DR** If you wanna optimize Earth Mover's distance between histograms without unnecessary hassle, just replace it with Manhattan or Euclidean distance and call it a day. If you want to know why, please welcome
+
+*Mar 31, 2023*
+
+-----------------------------------

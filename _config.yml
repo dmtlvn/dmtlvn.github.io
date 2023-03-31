@@ -1,9 +1,11 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: My sample book
-author: The Jupyter Book Community
+title: Neural Pasta
+author: Dmytro Levin
 logo: logo.png
+
+exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints", "_draft/**"]
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
