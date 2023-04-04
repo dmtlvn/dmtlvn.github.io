@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="NRLHL PASSTA" href="../intro.html" />
+    <link rel="prev" title="Hidden Biases of the Softmax" href="../hidden_bias_argmax/main.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -115,6 +115,11 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hidden_bias_argmax/main.html">
+   Hidden Biases of the Softmax
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    EMD Is Just MSE (Kinda)
@@ -427,6 +432,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="emd-is-just-mse-kinda">
 <h1>EMD Is Just MSE (Kinda)<a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
 <p>Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there’s at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a>. Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compate distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is <a class="reference external" href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wasserstein distance</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Earth_mover%27s_distance">Earth Mover’s Distance (EMD)</a> in particular. So let’s talk about one particular interpretation of EMD.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="earth-mover-s-distance-primer">
@@ -584,7 +590,7 @@ title="Print to PDF"
 <p>For an optimal EMD trajectory <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span>, and more the trajectory deviates from the optimal, the larger this variational error would become. When <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span> then there’s no difference which measure to optimize - EMD or <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
 <p>The fact that there exist infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:</p>
 <div class="math notranslate nohighlight">
-\[ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ 0 \leq w_t &lt; w_{t+1} \leq 1 \]</div>
+\[ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \quad 0 \leq w_t &lt; w_{t+1} \leq 1 \]</div>
 <p>Essentially, it moves from <span class="math notranslate nohighlight">\(h\)</span> to <span class="math notranslate nohighlight">\(g\)</span> in a straight line by making <span class="math notranslate nohighlight">\(n\)</span> transports for each step <span class="math notranslate nohighlight">\(d_t\)</span>. And nobody said we couldn’t move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to <span class="math notranslate nohighlight">\(\{ s_t \}\)</span>. There are several objective functions which can enforce that:</p>
 <ol class="simple">
 <li><p>The easiest one and most straightforward is a good old Euclidean distance</p></li>
@@ -596,7 +602,7 @@ title="Print to PDF"
 <p>The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step <span class="math notranslate nohighlight">\(s_t\)</span> will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until <span class="math notranslate nohighlight">\(W(s_t, g) &lt; \varepsilon\)</span>. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:</p>
 <div class="math notranslate nohighlight">
 \[ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(s_t, s_{t+1}) - W(h,g) \right) \geq 0 \]</div>
-<p>For histogram sampling we going to use <a class="reference external" href="http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html">this</a> method, which allows to sample uniformly from a simplex for <span class="math notranslate nohighlight">\(p = 1\)</span>.</p>
+<p>For histogram sampling we are going to use <a class="reference external" href="http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html">this</a> method, which allows to sample uniformly from a simplex for <span class="math notranslate nohighlight">\(p = 1\)</span>.</p>
 <p>Results are in the table below:</p>
 <table class="colwidths-auto table">
 <thead>
@@ -748,11 +754,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../hidden_bias_argmax/main.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+            <p class="prev-next-title">Hidden Biases of the Softmax</p>
         </div>
     </a>
 </div>
