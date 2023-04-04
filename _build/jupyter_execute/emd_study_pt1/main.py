@@ -11,6 +11,8 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # # EMD Is Just MSE (Kinda)
 # 
+# ---------------------------
+# 
 # Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there's at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence). Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compate distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is [Wasserstein distance](https://en.wikipedia.org/wiki/Wasserstein_metric) and [Earth Mover's Distance (EMD)](https://en.wikipedia.org/wiki/Earth_mover%27s_distance) in particular. So let's talk about one particular interpretation of EMD.
 
 # # Earth Mover's Distance Primer
@@ -584,7 +586,7 @@ plt.tight_layout();
 # 
 # The fact that there exist infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:
 # 
-# $$ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \ 0 \leq w_t < w_{t+1} \leq 1 $$
+# $$ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \quad 0 \leq w_t < w_{t+1} \leq 1 $$
 # 
 # Essentially, it moves from $h$ to $g$ in a straight line by making $n$ transports for each step $d_t$. And nobody said we couldn't move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to $\{ s_t \}$. There are several objective functions which can enforce that:
 # 1. The easiest one and most straightforward is a good old Euclidean distance
@@ -596,7 +598,7 @@ plt.tight_layout();
 # 
 # $$ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(s_t, s_{t+1}) - W(h,g) \right) \geq 0 $$
 # 
-# For histogram sampling we going to use [this](http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html) method, which allows to sample uniformly from a simplex for $p = 1$. 
+# For histogram sampling we are going to use [this](http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html) method, which allows to sample uniformly from a simplex for $p = 1$. 
 # 
 # Results are in the table below:
 # 

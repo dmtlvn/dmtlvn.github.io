@@ -4,4 +4,6 @@
 format: jb-book
 root: intro
 chapters:
+- file: hidden_bias_argmax/main
 - file: emd_study_pt1/main
+
