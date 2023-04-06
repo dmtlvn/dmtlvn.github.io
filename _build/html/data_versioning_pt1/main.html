@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Data Versioning Done Right. &#8212; Neural Pasta</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Argmax and Hidden Biases" href="../hidden_bias_argmax/main.html" />
+    <link rel="prev" title="NRLHL PASSTA" href="../intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pasta</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    NRLHL PASSTA
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Data Versioning Done Right.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hidden_bias_argmax/main.html">
+   Argmax and Hidden Biases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../emd_study_pt1/main.html">
+   EMD Is Just MSE (Kinda)
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/dmtlvn/dmtlvn.github.io/master?urlpath=tree/data_versioning_pt1/main.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2Fdata_versioning_pt1/main.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/data_versioning_pt1/main.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Data Versioning Done Right.
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-versioning">
+   Data Versioning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-caching">
+   Data Caching
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cache-design">
+   Cache Design
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Data Versioning Done Right.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Data Versioning Done Right.
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-versioning">
+   Data Versioning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-caching">
+   Data Caching
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cache-design">
+   Cache Design
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="data-versioning-done-right">
+<h1>Data Versioning Done Right.<a class="headerlink" href="#data-versioning-done-right" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
+<p>Reproducibility is one of the most important problems in mid- to large-scale ML projects. As the project grows, it accumulates dependencies, legacy and unclear use cases and keeping all that mess organized sometimes requires big changes to development practices and infrastructure. Reproducibility is a multifaceted issue with many aspects to it, but today I want to talk particularly about data versioning.</p>
+<p>Data versioning is a practice/tool which allows to keep your datasets and training code in sync. As the project grows so does the dataset. The training data is often composed of multiple open-source and private dataset which are stored in different formats, serve different purposes and require revision every now and then. This makes it really easy to forget which data a particular version of your model was trained on. When you add preprocessing into the mix, things get even more complicated. Data preprocessing is often a time-consuming calculation, and I’ve seen how people (and me as well) follow this anti-pattern of writing a standalone data preprocessing script, which dumps results into some folder and then use that folder as a “dataset” for the model training. It is pretty bad for reproducibility on itself but it can also lead to even bigger problems later on.</p>
+<blockquote>
+<div><p><strong>Example:</strong> Suppose your dataset consists of photos of people, but you need only their faces. So you run your photos through a face detector, crop faces, resize them to a desired size and save to a directory. Now imagine that you changed parameters of the face detector to make wider face crops. The image size stays the same and two folders of generated crops (tight and wide) will be indistiguishable for a training code on their own, so you technically you can use wrong data. To prevent that you need to manually check the version of the data used, and what is done manually is prone to mistakes. As your preprocessing pipeline becomes bigger it will require more and more manual checking. This gets even worse when multiple people work on the project from different machines, as they may have different folder structure and just pass wrongh paths to the training code. If two people conduct independent experiments and one of them unintentionally uses the wrong data, it will cause conflicting results which are hard to debug and may lead research into a wrong direction and cost a lot of time.</p>
+</div></blockquote>
+<p>Besides the obvious problems with this approach there’s a hidden one. When a team eventually decides to implement data versioning into their project they can easily confuse these preprocessed folders with the actual dataset and try to apply data versioning to them instead. Conceptually there’s nothing wrong with it: that folder is data which can change, the changes must be tracked, and there’s a tool for tracking changes in the data. The problem, however, hides in a way data versioning tools perform tracking. So let’s talk about that a bit.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-versioning">
+<h1>Data Versioning<a class="headerlink" href="#data-versioning" title="Permalink to this headline">#</a></h1>
+<p>There are several such solutions for data versioning out there, which share a lot of functionality. I myself mostly have to deal with <a class="reference external" href="https://dvc.org/">DVC</a> so I will be using it as an example.</p>
+<p>Data versioning systems like DVC provide two main features along other bells and whistles:</p>
+<ol class="simple">
+<li><p>Detect changes in a data folder using some sort of hashing and record these changes into a register.</p></li>
+<li><p>Provide some storage management to sync these registers between different providers: local storage, S3, GCS, databases etc.</p></li>
+</ol>
+<p>But because datasets are mostly stored as binaries, there’s no way for a DVC to calculate meaningful diffs between files. Everything it can do is to compare hashes and create a copy of a file if hashes don’t match. All those copies are stored in a remote data repo separately from the code (in a S3 bucket, for example) and are linked to you project via registry file added to your normal Git repo. You can probably guess where this is going - we can only have so many versions of our dataset before our storage blows up. This is crucial when we try to manage automatically generated data using DVC. Any tiny change to the data processing code completely messes up hashes so DVC creates a full copy of the data on the remote storage.</p>
+<blockquote>
+<div><p><strong>Example:</strong> On one of my projects a dataset contained 270GB of photos of people. Each change to a preprocessing codes will chew away 270B at a time and after only 10 changes you’ll get 3TB storage bill for what can be described by a handful of bytes in Git. And it is hard to impress anybody with a 270GB dataset nowadays, when models like Stable Diffusion are trained on 1000x  larger data.</p>
+</div></blockquote>
+<p>This poses a dilemma:</p>
+<ul class="simple">
+<li><p>If your dataset experiences frequent changes, this suggests using data versioning, which is very storage inefficient.</p></li>
+<li><p>If your dataset is stable, then you don’t need data versioning - there will be just a single commit.</p></li>
+</ul>
+<p>But the truth is that in cases like that you actually don’t need data versioning. You need caching.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-caching">
+<h1>Data Caching<a class="headerlink" href="#data-caching" title="Permalink to this headline">#</a></h1>
+<p>The main reason to create a folder with preprocessed data is to speed up your work: you memorize the outputs of your preprocessing code, so when you need them again, you can just read them from disk instead of recomputing. This is what caching does. But the interaction with the cache is different, and this is what causes problems. Here’s an example of the correct usage of caching:</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+    <span class="c1"># some transformation of the sample</span>
+    <span class="c1"># ...</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="mi">69</span><span class="p">)</span>  <span class="c1"># first use - results are computed</span>
+<span class="n">use_data</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># other stuff is done here</span>
+<span class="c1"># ... </span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="mi">69</span><span class="p">)</span>  <span class="c1"># second use - results are read from cache</span>
+<span class="n">use_data</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice how data preprocessing is called both times. This ensures that <code class="docutils literal notranslate"><span class="pre">process_data</span></code> is always in sync with <code class="docutils literal notranslate"><span class="pre">use_data</span></code> - they are called together despite the state of the cache. But this is how caching is done in our folder-with-files case:</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="mi">69</span><span class="p">)</span> 
+<span class="n">save_to_cache_folder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># a possible break in execution</span>
+<span class="c1"># ... </span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">load_from_cache_folder</span><span class="p">()</span>
+<span class="n">use_data</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># first use - results are read from cache</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">load_from_cache_folder</span><span class="p">()</span>
+<span class="n">use_data</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># second use - results are read from cache</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">process_data</span></code> and <code class="docutils literal notranslate"><span class="pre">use_data</span></code> are not in sync and all sorts of bad things can happen. If we’d change our code to the correct one - with redundant calls to the <code class="docutils literal notranslate"><span class="pre">process_data</span></code> function, then we would achieve two things:</p>
+<ol class="simple">
+<li><p>We would ensure that our preprocessing code does not diverge from the training code, because it gets called every single time and not only at the start of the project</p></li>
+<li><p>Any change to the preprocessed data would be reflected in the preprocessing code, which is managed by Git and takes no storage compared to a complete new dump of data created by DVC.</p></li>
+</ol>
+<p>Having that the only data changes which would go to a DVC repo would be some manual changes - the only changes which cannot be stored in any other way. This way our DVC repo would have minimal size without compromises to traceability.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cache-design">
+<h1>Cache Design<a class="headerlink" href="#cache-design" title="Permalink to this headline">#</a></h1>
+<p>Unfortunately, DVC does not provide tooling necessary for such data caching. So let’s think of potential use cases and design our cache more accuratel</p>
+<blockquote>
+<div><p><strong>Requirement #1:</strong> Cache must be persistent between multiple runs of the training pipeline on the same working machine, restarts of the working machine and even multiple working machines.</p>
+</div></blockquote>
+<p>The last one is needed so the different people can reuse the same dataset with costly recomputation. These requirements suggest a disk-based cache. Its read times are on par with plain files it is essentially a folder with files but smarter, so it lives as long as storage does and it can be synced between multiple machines using various tools.</p>
+<blockquote>
+<div><p><strong>Requirement #2:</strong> Any change of the cacheable function which changes its outputs must lead to a recomputation of the cached value.</p>
+</div></blockquote>
+<p>This requirement is trivially satisfied in memory-based caches, because cacheable functions usually don’t change in runtime. But for a disk-based cache there’s no such guarantees. More so, we build this cache exactly to catch code changes and bind them to data. This validation mechanism need compare a value stored in the cache to a result recomputed during at every run. This requires access to raw function arguments. It can be a problem. Arguments to a cacheable function can be tensors or arrays which take up a lot of memory. So here follows the next requirement:</p>
+<blockquote>
+<div><p><strong>Requirement #3:</strong> Cache keys must have minimal memory footprint.</p>
+</div></blockquote>
+<p>In other circumstances we could use hashes, but not in our case. We can solve this issue, however. Because DVC takes care of raw data, we can pass paths to files with raw data to our processing functions instead of actual data, so the function signatures can be stored efficiently.</p>
+<blockquote>
+<div><p><strong>Requirement #4:</strong> Cache must have multiple levels for heavy data blobs and lightweight metadata records.</p>
+</div></blockquote>
+<p>A data record may not be a unitary blob of data but have multiple fields. We can roughly divide all the extracted data into four groups:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:left head"><p><strong>Compute - Slow</strong></p></th>
+<th class="text-align:left head"><p><strong>Compute - Fast</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p><strong>Memory - Low</strong></p></td>
+<td class="text-align:left"><p>Hard to compute, easy to store. <br> Examples: <em>class indicies, <br> embeddings, descriptors etc.</em> <br><br> Cached.</p></td>
+<td class="text-align:left"><p>Info extacted from function arguments. <br> Examples: <em>IDs, tags, labels extracted <br> from file paths.</em> <br><br> Not cached</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p><strong>Memory - High</strong></p></td>
+<td class="text-align:left"><p>Hard to compute, hard to store. <br> Examples: <em>segmentation masks, <br> features, generated images etc.</em> <br><br> Cached.</p></td>
+<td class="text-align:left"><p>Simple ops on raw data. <br> Examples: <em>image normalization, <br> resize, flip etc.</em> <br><br> Not cached</p></td>
+</tr>
+</tbody>
+</table>
+<p>The first group consists of some lightweight objects which are extracted from the raw data using ML models or other slow algorithms. This data is typically used for sampling and/or filtering further in the data pipeline, so we need be able to prefetch such data from the cache into memory. On the other hand the second group includes data which cannot be fit into memory in large numbers and must be loaded lazily. The data record may consist of both types of data so our cache should support both as well.</p>
+<p>These are four main requirements to our data preprocessing cache. There are plenty of Python tools for caching but seems like they fall short in one way or another. I haven’t been able to find disk caching tools with appropriate invalidation strategies - most of them use TTL of some kind, which is not what we want, as our cache can potentially live for months. Also two-level caching with lazy reads is kinda specific requirement, so I haven’t been able to find anything like that as well. For this reason we’ll resort to writing our own solution. We will definetely face fun engineering challenges there. But that’s it for today.</p>
+<p>Until next time.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./data_versioning_pt1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../hidden_bias_argmax/main.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Argmax and Hidden Biases</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Dmytro Levin<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

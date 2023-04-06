@@ -2,7 +2,17 @@
 
 **NEURAL PASTA**
 
-*ML Research shitposting is done here.*
+*ML/DL shitposting is done here.*
+
+-----------------------------------
+
+### [Data Versioning Done Right.](data_versioning_pt1/main)
+
+*(said with confidence to generate clicks; hopes that actual MLOps won't give him too much of a beating)*
+
+Today we are talking about how to properly integrate data versioning into ML research workflows.
+
+*Apr 6, 2023*
 
 -----------------------------------
 
