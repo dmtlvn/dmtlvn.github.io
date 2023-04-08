@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="EMD Is Just MSE (Kinda)" href="../emd_study_pt1/main.html" />
-    <link rel="prev" title="NRLHL PASSTA" href="../intro.html" />
+    <link rel="prev" title="Data Versioning Done Right." href="../data_versioning_pt1/main.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -114,6 +114,11 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../data_versioning_pt1/main.html">
+   Data Versioning Done Right.
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Argmax and Hidden Biases
@@ -392,12 +397,12 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="argmax-and-hidden-biases">
 <h1>Argmax and Hidden Biases<a class="headerlink" href="#argmax-and-hidden-biases" title="Permalink to this headline">#</a></h1>
 <hr class="docutils" />
-<p>Debugging deep learning models (and most of other ML models for that matter) can be really painfull. Because of their probabilistic nature they often produce the worst kind of bugs: the model executes without any exceptions and results are reasonable most of the time, but <em>sometimes</em> the model spits out utter gibberish. And tracing down sources of these occasional errors can take hours or even days. So today I wanna share one one debugging story so people can learn from my mistakes than from their own.</p>
-<p>While working on a face parsing project with my fellow colleagues we encountered a problem: a custom trained face parser was sporadically flickering on videos - switching left and right eyes randomly. However, on a test set it performed reasonably well. As we didn’t observe this problem on still images, we suspected that it has something to do with video consistency and tested various filtering methods to fix it. Filtering reduced left-right flickering to a degree but nearly  enough. We considered adding additional post-processing heuristics to separate left and right eyes, adding pretrained keypoint estimators to the pipeline and even to relax the requirements and merge them into a single class. But luckily the source of problem have been found.</p>
+<p>Debugging deep learning models (and most of other ML models for that matter) can be really painful. Because of their probabilistic nature they often produce the worst kind of bugs: the model executes without any exceptions and results are reasonable most of the time, but <em>sometimes</em> the model spits out utter gibberish. And tracing down sources of these occasional errors can take hours or even days. So today I wanna share one debugging story so people can learn from my mistakes rather than from their own.</p>
+<p>While working on a face parsing project with my fellow colleagues we encountered a problem: a custom trained face parser was sporadically flickering on videos - switching left and right eyes randomly. However, on a test set it performed reasonably well. As we didn’t observe this problem on still images, we suspected that it has something to do with video consistency and tested various filtering methods to fix it. Filtering reduced left-right flickering to a degree but nearly  enough. We considered adding additional post-processing heuristics to separate left and right eyes, adding pretrained keypoint estimators to the pipeline and even to relax the requirements and merge them into a single class. But luckily the source of the problem has been found.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="the-root-of-all-evil">
 <h1>The Root of All Evil<a class="headerlink" href="#the-root-of-all-evil" title="Permalink to this headline">#</a></h1>
-<p>As it always turns out, the mistake was embarrassingly dumb and was hiding in the plain sight all along. All the results, and metrics for the face parser were reported <em><strong>after</strong></em> the argmax layer on top, which is kinda common thing to do. The problem with the argmax, however, is that it doesn’t care if the maximum value differes by 0.1 or by 0.001 - it destroys information. Take a look at these two predictions:</p>
+<p>As it always turns out, the mistake was embarrassingly dumb and was hiding in the plain sight all along. All the results, and metrics for the face parser were reported <em><strong>after</strong></em> the argmax layer on top, which is kinda common thing to do. The problem with the argmax, however, is that it doesn’t care if the maximum value differs by 0.1 or by 0.001 - it destroys information. Take a look at these two predictions:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_3_0.png" src="../_images/main_3_0.png" />
@@ -409,13 +414,13 @@ title="Print to PDF"
 <img alt="../_images/main_5_0.png" src="../_images/main_5_0.png" />
 </div>
 </div>
-<p>I would go to a nearest crossroads and sign a deal with the Devil to get such accurate segmentation masks all the time. And the Devil definetely played his tricks on us, as he usually does, because these nice masks were hiding this under the argmax:</p>
+<p>I would go to a nearest crossroads and sign a deal with the Devil to get such accurate segmentation masks all the time. And the Devil definitely played his tricks on us, as he usually does, because these nice masks were hiding this under the argmax:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_7_0.png" src="../_images/main_7_0.png" />
 </div>
 </div>
-<p>So despite the correct masks our model had actually little to no distinction between left and right eyes whatsoever! After examining more images we found out that this is a systematic behavior, so definetely something was wrong with our training setup. These kinds of problems are much easier to track down than occasional errors. As you can guess, the problem was hiding in the augmentation pipeline. There was a random flip augmentation but due to a mistake in the code labels weren’t changed from left to right correctly. Addionally, due to augmentation probabilities, this mistake didn’t appear all the time so predictions were <em>almost</em> correct. The model averaged everithing out and developed a strong bias towards left-right indifference. Obviously, after fixing this mistake with augmentations the problem went away, network learnt to tell left from right and flickering on videos disappeared.</p>
+<p>So despite the correct masks our model had actually little to no distinction between left and right eyes whatsoever! After examining more images we found out that this is a systematic behavior, so definitely something was wrong with our training setup. These kinds of problems are much easier to track down than occasional errors. As you can guess, the problem was hiding in the augmentation pipeline. There was a random flip augmentation but due to a mistake in the code labels weren’t changed from left to right correctly. Additionally, due to augmentation probabilities, this mistake didn’t appear all the time so predictions were <em>almost</em> correct. The model averaged everything out and developed a strong bias towards left-right indifference. Obviously, after fixing this mistake with augmentations the problem went away, the network learnt to tell left from right and flickering on videos disappeared.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
@@ -449,11 +454,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../data_versioning_pt1/main.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+            <p class="prev-next-title">Data Versioning Done Right.</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../emd_study_pt1/main.html" title="next page">

@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Hidden Biases of the Softmax" href="../hidden_bias_argmax/main.html" />
+    <link rel="prev" title="Argmax and Hidden Biases" href="../hidden_bias_argmax/main.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -116,8 +116,13 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="../data_versioning_pt1/main.html">
+   Data Versioning Done Right.
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../hidden_bias_argmax/main.html">
-   Hidden Biases of the Softmax
+   Argmax and Hidden Biases
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -433,14 +438,14 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="emd-is-just-mse-kinda">
 <h1>EMD Is Just MSE (Kinda)<a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h1>
 <hr class="docutils" />
-<p>Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there’s at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a>. Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compate distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is <a class="reference external" href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wasserstein distance</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Earth_mover%27s_distance">Earth Mover’s Distance (EMD)</a> in particular. So let’s talk about one particular interpretation of EMD.</p>
+<p>Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there’s at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a>. Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compare distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is <a class="reference external" href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wasserstein distance</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Earth_mover%27s_distance">Earth Mover’s Distance (EMD)</a> in particular. So let’s talk about one particular interpretation of EMD.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="earth-mover-s-distance-primer">
 <h1>Earth Mover’s Distance Primer<a class="headerlink" href="#earth-mover-s-distance-primer" title="Permalink to this headline">#</a></h1>
-<p>We often deal with histograms when working with distributions. What is an EMD between two histograms? Generally speaking, it is a solution to an <a class="reference external" href="https://en.wikipedia.org/wiki/Transportation_theory_(mathematics)">optimal transport problem</a>. The popular explanation goes like this. Imagine our histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> being two piles of dirt, both having mass 1. Let’s set a cost of moving a unit of dirt from location <span class="math notranslate nohighlight">\(i\)</span> to location <span class="math notranslate nohighlight">\(j\)</span> as <span class="math notranslate nohighlight">\(c_{ij} \geq 0\)</span>. It is often set to be just the distance between <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>: <span class="math notranslate nohighlight">\(c_{ij} = |i - j|\)</span>. And let’s define transport <span class="math notranslate nohighlight">\(p_{ij}\)</span> as the amount of dirt to be moved between locations <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>. The amount of dirt in two piles is the same, so there exists at least one transport plan <span class="math notranslate nohighlight">\(P = \{ p_{ij} \}\)</span> which transforms one pile into another. Each such plan has a total cost associated with it as <span class="math notranslate nohighlight">\( C = \sum_{i,j} p_{ij} |i - j| \)</span>. The EMD then is the minimal total cost of reshaping one pile into another.</p>
+<p>We often deal with histograms when working with distributions. What is an EMD between two histograms? Generally speaking, it is a solution to an <a class="reference external" href="https://en.wikipedia.org/wiki/Transportation_theory_(mathematics)">optimal transport problem</a>. The popular explanation goes like this. Imagine our histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> being two piles of dirt, both having mass 1. Let’s set the cost of moving a unit of dirt from location <span class="math notranslate nohighlight">\(i\)</span> to location <span class="math notranslate nohighlight">\(j\)</span> as <span class="math notranslate nohighlight">\(c_{ij} \geq 0\)</span>. It is often set to be just the distance between <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>: <span class="math notranslate nohighlight">\(c_{ij} = |i - j|\)</span>. And let’s define transport <span class="math notranslate nohighlight">\(p_{ij}\)</span> as the amount of dirt to be moved between locations <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>. The amount of dirt in two piles is the same, so there exists at least one transport plan <span class="math notranslate nohighlight">\(P = \{ p_{ij} \}\)</span> which transforms one pile into another. Each such plan has a total cost associated with it as <span class="math notranslate nohighlight">\( C = \sum_{i,j} p_{ij} |i - j| \)</span>. The EMD then is the minimal total cost of reshaping one pile into another.</p>
 <div class="math notranslate nohighlight">
 \[ W(h, g) = \min_{P \in \Pi} \sum_{i,j} p_{ij} |i - j| \]</div>
-<p>where <span class="math notranslate nohighlight">\(\Pi\)</span> is a set of all possible transport plans. This is a standard formulation and interpretation of the Earth Mover’s Distance. But let’s fix one anoying flaw in this formulation. Consider that the maximum possible cost for a transport plan happens when the whole mass must be transfered from the first bin to the last one. Therefore EMD has a trivial upper bound:</p>
+<p>where <span class="math notranslate nohighlight">\(\Pi\)</span> is a set of all possible transport plans. This is a standard formulation and interpretation of the Earth Mover’s Distance. But let’s fix one annoying flaw in this formulation. Consider that the maximum possible cost for a transport plan happens when the whole mass must be transferred from the first bin to the last one. Therefore EMD has a trivial upper bound:</p>
 <div class="math notranslate nohighlight">
 \[ W(h, g) &lt; n \]</div>
 <p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of bins in the histogram. We usually do not want our distance measure to grow just because we made our histograms more detailed. To fix that and make things prettier let’s simply scale the EMD:</p>
@@ -463,7 +468,7 @@ title="Print to PDF"
 <p>Therefore:</p>
 <div class="math notranslate nohighlight">
 \[ P = g - h = \sum_{k=1}^{N} p_k\]</div>
-<p>For everything to make sense, these vectors <span class="math notranslate nohighlight">\(p_k\)</span> must be coplanar to a <span class="math notranslate nohighlight">\((i_k, j_k)\)</span> coordinate plane, where <span class="math notranslate nohighlight">\(i_k\)</span> and <span class="math notranslate nohighlight">\(j_k\)</span> are indicies of bins between which the mass exchange is performed on the step <span class="math notranslate nohighlight">\(k\)</span>. Nothings beats a good visualization, so here’s a nice 3D example:</p>
+<p>For everything to make sense, these vectors <span class="math notranslate nohighlight">\(p_k\)</span> must be coplanar to a <span class="math notranslate nohighlight">\((i_k, j_k)\)</span> coordinate plane, where <span class="math notranslate nohighlight">\(i_k\)</span> and <span class="math notranslate nohighlight">\(j_k\)</span> are indices of bins between which the mass exchange is performed on the step <span class="math notranslate nohighlight">\(k\)</span>. Nothings beats a good visualization, so here’s a nice 3D example:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_4_0.png" src="../_images/main_4_0.png" />
@@ -478,7 +483,7 @@ title="Print to PDF"
 </ol>
 </li>
 <li><p>Each transport plan is actually an equivalence class of more “detailed” plans, obtained by splitting any transport vector into multiple parts: <span class="math notranslate nohighlight">\(p_k = \sum_{i=1}^{m} p_{ki}\)</span> where <span class="math notranslate nohighlight">\(p_{ki} = w_{ki} p_k\)</span> with <span class="math notranslate nohighlight">\(w_{ki}\)</span> beings positive weights summing up to 1.</p></li>
-<li><p>More so, we can take all sub-steps <span class="math notranslate nohighlight">\(p_{ki}\)</span> and shuffle them in any way, which preserves continuity of the the whole transport plan and ensures that the new plan still adds up to <span class="math notranslate nohighlight">\(P\)</span>. This is true because by splitting <span class="math notranslate nohighlight">\(p_k\)</span> we just split the mass transferred, and by shuffling them we change only at which step this smaller mass is transferred, but the destination stays the same, thus the whole flow between each pair of bins stays the same.</p></li>
+<li><p>More so, we can take all sub-steps <span class="math notranslate nohighlight">\(p_{ki}\)</span> and shuffle them in any way, which preserves continuity of the whole transport plan and ensures that the new plan still adds up to <span class="math notranslate nohighlight">\(P\)</span>. This is true because by splitting <span class="math notranslate nohighlight">\(p_k\)</span> we just split the mass transferred, and by shuffling them we change only at which step this smaller mass is transferred, but the destination stays the same, thus the whole flow between each pair of bins stays the same.</p></li>
 </ol>
 <p>Let’s look at an example:</p>
 <div class="cell tag_remove-input docutils container">
@@ -486,8 +491,8 @@ title="Print to PDF"
 <img alt="../_images/main_6_0.png" src="../_images/main_6_0.png" />
 </div>
 </div>
-<p>As you can imagine, we can take this to the limit and split the “simple” plan into infinitesemal parts and stitch them in any zig-zag curve we like. The natural idea would be to continue the “detalization” steps recursively cutting new sub-steps in two and bend corners inward bringing the trajectory closer and closer to the vector <span class="math notranslate nohighlight">\(P\)</span> and then call it a day. Unfortunately, because this operation does not change the length of the trajectory, even in a limit we get not a vector <span class="math notranslate nohighlight">\(P\)</span>, but a fractal shape of the same length as our initial “simple” plan.</p>
-<p>How the optimal transport plan looks like then in our example? There are actually two of them. Here’s the first one:</p>
+<p>As you can imagine, we can take this to the limit and split the “simple” plan into infinitesimal parts and stitch them in any zig-zag curve we like. The natural idea would be to continue the “detalization” steps recursively cutting new sub-steps in two and bend corners inward bringing the trajectory closer and closer to the vector <span class="math notranslate nohighlight">\(P\)</span> and then call it a day. Unfortunately, because this operation does not change the length of the trajectory, even in a limit we get not a vector <span class="math notranslate nohighlight">\(P\)</span>, but a fractal shape of the same length as our initial “simple” plan.</p>
+<p>How does the optimal transport plan look like then in our example? There are actually two of them. Here’s the first one:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_8_0.png" src="../_images/main_8_0.png" />
@@ -510,14 +515,14 @@ title="Print to PDF"
 <li><p><span class="math notranslate nohighlight">\(p_2\)</span>: <span class="math notranslate nohighlight">\(h_3 \rightarrow h_1\)</span> - move the excess from bin 2 to bin 1</p></li>
 </ol>
 <p>This plan really looks like a bulldozer pushing excess dirt into “holes”.</p>
-<p>These two plans are optimal and correspond to EMD <span class="math notranslate nohighlight">\(\approx\)</span> 0.593, but the fact that they look completely different geometrically raises a guestion: what is common between them, which guaranties the equal minimal cost?</p>
+<p>These two plans are optimal and correspond to EMD <span class="math notranslate nohighlight">\(\approx\)</span> 0.593, but the fact that they look completely different geometrically raises a question: what is common between them, which guarantees the equal minimal cost?</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="upper-bounds">
 <h1>Upper Bounds<a class="headerlink" href="#upper-bounds" title="Permalink to this headline">#</a></h1>
 <p>We have clearly seen that it cannot be a length of the trajectory <span class="math notranslate nohighlight">\(p_k\)</span> as the first and the second trajectory have different lengths but the same EMD. So what could it be? Because any trajectory regardless of its shape adds up to the vector <span class="math notranslate nohighlight">\(P\)</span>, then maybe some property of the vector <span class="math notranslate nohighlight">\(P\)</span> can shed some light on the set of optimal transport plan trajectories. The instinctive first choice would be a euclidean norm of <span class="math notranslate nohighlight">\(P\)</span>. But remember, that histograms preserve a sum of elements and not their squares. So an <span class="math notranslate nohighlight">\(L_1\)</span>-norm seems to be more logical:</p>
 <div class="math notranslate nohighlight">
 \[ \|P\|_1 = \sum_{i=1}^n |h_i - g_i| \]</div>
-<p>Let’s plot EMD agains <span class="math notranslate nohighlight">\(\|P\|_1\)</span> for random histograms with various number of bins:</p>
+<p>Let’s plot EMD against <span class="math notranslate nohighlight">\(\|P\|_1\)</span> for random histograms with various number of bins:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_13_0.png" src="../_images/main_13_0.png" />
@@ -541,7 +546,7 @@ title="Print to PDF"
 <img alt="../_images/main_16_0.png" src="../_images/main_16_0.png" />
 </div>
 </div>
-<p>But for the completeness let’s take a look at some other distribution similarity measures in realation to EMD and check which upper and lower bounds the induce on it.</p>
+<p>But for completeness let’s take a look at some other distribution similarity measures in relation to EMD and check which upper and lower bounds the induce on it.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_18_0.png" src="../_images/main_18_0.png" />
@@ -552,7 +557,7 @@ title="Print to PDF"
 <li><p>The first row shows a Euclidean distance. Its induced upper bound is in general slightly concave but similar to Manhattan’s</p></li>
 <li><p>A cosine between two histogram vectors is also almost concave, and is a weaker bound for almost the whole range of values.</p></li>
 <li><p>An angle between two histogram vectors a.k.a. <span class="math notranslate nohighlight">\(arccos(cos(h, g))\)</span> is more complex but close to <span class="math notranslate nohighlight">\(L_1\)</span></p></li>
-<li><p>A total variation distance (a maximum absolute difference between histograms) is also sligtly concave but close</p></li>
+<li><p>A total variation distance (a maximum absolute difference between histograms) is also slightly concave but close</p></li>
 <li><p>Kullback-Leibler divergence induces a highly concave bound which has almost no effect till very close to zero, but there it pushes real hard.</p></li>
 </ol>
 <p>One notable example is the Kolmogorov-Smirnov distance which is equal to a maximum absolute difference but between CDFs:</p>
@@ -573,7 +578,7 @@ title="Print to PDF"
 \[ W(h, g) \leq KS(h, g) \leq \| h - g \|_1 \]</div>
 <p>And it can be experimentally verified, that none of the metrics above can be put between KS and EMD in this hierarchy. But optimizing KS distance using gradient methods is probably even more difficult than the original EMD.</p>
 <p>You can find a more comprehensive study on hierarchies of probability metrics in <a class="reference external" href="https://math.hmc.edu/su/wp-content/uploads/sites/10/2019/06/ON-CHOOSING-AND-BOUNDING-PROBABILITY.pdf">(Gibbs, 2002)</a> by the way.</p>
-<p>As you can see, other common metrics are either very similar to <span class="math notranslate nohighlight">\(L_1\)</span> as upper bounds on EMD, or are harder to optimize, or more difficult to compute. We can think of a more complicated optimization schedule, where we use one metric, then switch for a better one, but then we start loosing a point: we want a simpler alternative to EMD. And while <span class="math notranslate nohighlight">\(L_1\)</span>-distance isn’t something ground breaking on itself, it has these nice properties which favour it among other metrics.</p>
+<p>As you can see, other common metrics are either very similar to <span class="math notranslate nohighlight">\(L_1\)</span> as upper bounds on EMD, or are harder to optimize, or more difficult to compute. We can think of a more complicated optimization schedule, where we use one metric, then switch for a better one, but then we start losing a point: we want a simpler alternative to EMD. And while <span class="math notranslate nohighlight">\(L_1\)</span>-distance isn’t something groundbreaking in itself, it has these nice properties which favor it among other metrics.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="variational-error">
 <h1>Variational Error<a class="headerlink" href="#variational-error" title="Permalink to this headline">#</a></h1>
@@ -581,25 +586,25 @@ title="Print to PDF"
 <div class="math notranslate nohighlight">
 \[ \phi(h,g) \leq f(\psi(h,g)) \]</div>
 <p>For <span class="math notranslate nohighlight">\(\phi = W\)</span> and <span class="math notranslate nohighlight">\(\psi = \|\cdot\|_1\)</span> we have proved that this function is an identity function <span class="math notranslate nohighlight">\(f(x) = x\)</span>, for example.</p>
-<p>When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitue for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure difference between two trajectories by a sort of variational error. Let’s recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to <span class="math notranslate nohighlight">\(P = g - h\)</span>, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory <span class="math notranslate nohighlight">\(s = \{ h, s_1, s_2, ... s_{T-1}, g \}\)</span>. Together with the fact, that EMD is additive we have the following:</p>
+<p>When viewed this way, the pure existence of an upper bound on EMD really is a quite boring fact. What makes all those similarity measures really different is how they behave during optimization. And when we choose a substitute for the EMD we probably want it to follow the same optimization trajectory, as the EMD when optimized using gradient methods. We can measure the difference between two trajectories by a sort of variational error. Let’s recall that from the geometric formulation of EMD it follows that each transport plan can be represented as a sum of offset vectors, which add up to <span class="math notranslate nohighlight">\(P = g - h\)</span>, and these vectors can be split and rearranged in any way which preserves continuity of the trajectory <span class="math notranslate nohighlight">\(s = \{ h, s_1, s_2, ... s_{T-1}, g \}\)</span>. Together with the fact, that EMD is additive we have the following:</p>
 <div class="math notranslate nohighlight">
 \[ W(h, g) = \sum_{t=0}^{T} W(s_t, s_{t+1}) \]</div>
 <p>From this we can define a variational error for a similarity measure <span class="math notranslate nohighlight">\(\phi\)</span> generating an optimization trajectory <span class="math notranslate nohighlight">\(\{ d_t \}\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[ \delta(\phi) = \sum_{t} W(s_t, s_{t+1}) - W(h, g) \geq 0\]</div>
-<p>For an optimal EMD trajectory <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span>, and more the trajectory deviates from the optimal, the larger this variational error would become. When <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span> then there’s no difference which measure to optimize - EMD or <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
-<p>The fact that there exist infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:</p>
+<p>For an optimal EMD trajectory <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span>, and the more the trajectory deviates from the optimal, the larger this variational error would become. When <span class="math notranslate nohighlight">\(\delta(\phi) = 0\)</span> then there’s no difference which measure to optimize - EMD or <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
+<p>The fact that there exists an infinite number of optimal trajectories gives us more freedom which one to choose. One possible choice is the trajectory:</p>
 <div class="math notranslate nohighlight">
 \[ s_t = w_t P = \sum_{i=1}^{n} w_t p_i, \quad 0 \leq w_t &lt; w_{t+1} \leq 1 \]</div>
 <p>Essentially, it moves from <span class="math notranslate nohighlight">\(h\)</span> to <span class="math notranslate nohighlight">\(g\)</span> in a straight line by making <span class="math notranslate nohighlight">\(n\)</span> transports for each step <span class="math notranslate nohighlight">\(d_t\)</span>. And nobody said we couldn’t move mass between bins simultaneously, as long as those are valid moves, which they are. So one way to keep our variational error low is for the optimization trajectory to be close to <span class="math notranslate nohighlight">\(\{ s_t \}\)</span>. There are several objective functions which can enforce that:</p>
 <ol class="simple">
 <li><p>The easiest one and most straightforward is a good old Euclidean distance</p></li>
-<li><p>The fancier one is a cosine similarity, which reduces an angle between two vectors by moving along the shortest arc, which when projected onto our histogram simplex coincides with the vector <span class="math notranslate nohighlight">\(P\)</span> as well. The only difference form the Euclidean distance is that this projection scales steps differently.</p></li>
+<li><p>The fancier one is a cosine similarity, which reduces an angle between two vectors by moving along the shortest arc, which when projected onto our histogram simplex coincides with the vector <span class="math notranslate nohighlight">\(P\)</span> as well. The only difference from the Euclidean distance is that this projection scales steps differently.</p></li>
 </ol>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="actual-optimization">
 <h1>Actual Optimization<a class="headerlink" href="#actual-optimization" title="Permalink to this headline">#</a></h1>
-<p>The last thing is to check, how different metrics perform in terms of our variational error. To do that lets set up a following experiment. For a given random pair of initial and target histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step <span class="math notranslate nohighlight">\(s_t\)</span> will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until <span class="math notranslate nohighlight">\(W(s_t, g) &lt; \varepsilon\)</span>. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:</p>
+<p>The last thing is to check how different metrics perform in terms of our variational error. To do that lets set up the following experiment. For a given random pair of initial and target histograms <span class="math notranslate nohighlight">\(h\)</span> and <span class="math notranslate nohighlight">\(g\)</span> we perform a gradient descent using our objectives and record optimization trajectories. SGD does not guarantee that each step <span class="math notranslate nohighlight">\(s_t\)</span> will be a valid histogram, so we are going to force-normalize them at each step. Optimization for each objective is done until <span class="math notranslate nohighlight">\(W(s_t, g) &lt; \varepsilon\)</span>. An average relative variational error averaged over 1000 trajectories is reported to account for large variety in scale:</p>
 <div class="math notranslate nohighlight">
 \[ \delta(\phi) = \frac{1}{W(h,g)} \left( \sum_{t} W(s_t, s_{t+1}) - W(h,g) \right) \geq 0 \]</div>
 <p>For histogram sampling we are going to use <a class="reference external" href="http://blog.geomblog.org/2013/01/a-sampling-gem-sampling-from-ellp-balls.html">this</a> method, which allows to sample uniformly from a simplex for <span class="math notranslate nohighlight">\(p = 1\)</span>.</p>
@@ -682,14 +687,14 @@ title="Print to PDF"
 </tr>
 </tbody>
 </table>
-<p>As expected, the Euclidean distance performs the best in terms of the variational error. The error is reduced with the learning rate, which means that it comes mostly from the jittering near the minimum. The same results are for the cosine similarity as well, so they are ommited.</p>
+<p>As expected, the Euclidean distance performs the best in terms of the variational error. The error is reduced with the learning rate, which means that it comes mostly from the jittering near the minimum. The same results are for the cosine similarity as well, so they are omitted.</p>
 <p>But interestingly enough, the values for the closed-form solution are just off the charts, even compared to the <span class="math notranslate nohighlight">\(L_1\)</span> distance. What’s happening there which produces such crazy errors? Let’s examine one optimization curve:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/main_23_0.png" src="../_images/main_23_0.png" />
 </div>
 </div>
-<p>We can clearly see that <span class="math notranslate nohighlight">\(L_1\)</span> objective, for comparison, converges order of magnitude faster than a closed-form solution to the EMD: 2000 vs 20 000 steps. Also the trajectory near the minimum speaks for itself: closed-form objective is much more jagged, which slows down convergence and leads to tons of suboptimal steps and a ridiculous accumulation of error as a result. And the finer the steps get, the more error they accumulate.</p>
+<p>We can clearly see that <span class="math notranslate nohighlight">\(L_1\)</span> objective, for comparison, converges order of magnitude faster than a closed-form solution to the EMD: 2000 vs 20 000 steps. Also the trajectory near the minimum speaks for itself: closed-form objective is much more jagged, which slows down convergence and leads to tons of suboptimal steps and a ridiculous accumulation of error as a result. And the finer the steps get, the more errors they accumulate.</p>
 <p>We can get a feeling of why this happens by looking at the derivative of a closed-form solution. Recall that:</p>
 <div class="math notranslate nohighlight">
 \[ W(h, g) = \frac{1}{n} \sum_{m=1}^{n} \left| \textstyle \sum_{i=1}^{m} h_i - g_i \right| \]</div>
@@ -703,18 +708,18 @@ title="Print to PDF"
 <img alt="../_images/main_25_0.png" src="../_images/main_25_0.png" />
 </div>
 </div>
-<p>Definetely not the best function to use along gradient methods, with lots of descrete jumps which cause that jaggedness of error curve. I bet the actual trajectory zig-zags like crazy as it tries to move along a slanted line with discrete steps. Also a fun fact is that the derivative has more terms for the bins with smaller indicies. This makes a gradient for first bin more noisy then for the last one, which is somewhat arbitrary.</p>
+<p>Definitely not the best function to use along gradient methods, with lots of discrete jumps which cause that jaggedness of error curve. I bet the actual trajectory zig-zags like crazy as it tries to move along a slanted line with discrete steps. Also a fun fact is that the derivative has more terms for the bins with smaller indices. This makes a gradient for the first bin more noisy then for the last one, which is somewhat arbitrary.</p>
 <p>The same is true for the KS distance, as its gradient depends on whether a particular index is a maximal CDF difference, which jumps all the time and is also very noisy, which leads to the same error accumulation problem. We can observe that from the results.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
 <p>So today we’ve learned that:</p>
 <ol class="simple">
-<li><p>Any similarity measure induces an upper bound on any other similarity measure and proved <span class="math notranslate nohighlight">\(L_1\)</span> and Kolmogorov-Smirnov upper bounds on EMD, which are optimal in sense that they are linear and uniform.</p></li>
+<li><p>Any similarity measure induces an upper bound on any other similarity measure and proved <span class="math notranslate nohighlight">\(L_1\)</span> and Kolmogorov-Smirnov upper bounds on EMD, which are optimal in the sense that they are linear and uniform.</p></li>
 <li><p><span class="math notranslate nohighlight">\(L_2\)</span> distance despite not being equal to the EMD produces optimization trajectories which correspond to valid transport plans, which makes it equivalent to the EMD in that sense</p></li>
 <li><p>Optimizing the exact closed-form solution to the EMD is worse than <span class="math notranslate nohighlight">\(L_1\)</span> or <span class="math notranslate nohighlight">\(L_2\)</span> surrogates in terms of the EMD itself, as instabilities in the gradient lead to huge accumulation of variational error.</p></li>
 </ol>
-<p>All of that to just conlude, that if you need to match histograms using gradient methods, then you can just use MSE or MAE and don’t overthink things when unnecessary.</p>
+<p>All of that to just conclude, that if you need to match histograms using gradient methods, then you can just use MSE or MAE and don’t overthink things when unnecessary.</p>
 <p>And by the way, remember, how we glanced over the Euclidean distance:</p>
 <blockquote>
 <div><p><em>The instinctive first choice would be a euclidean norm of <span class="math notranslate nohighlight">\(P\)</span>. But remember, that…</em></p>
@@ -758,7 +763,7 @@ title="Print to PDF"
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Hidden Biases of the Softmax</p>
+            <p class="prev-next-title">Argmax and Hidden Biases</p>
         </div>
     </a>
 </div>
