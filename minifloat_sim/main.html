@@ -1,0 +1,913 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Wonderful Minifloats &#8212; Neural Pasta</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Versioning Done Right." href="../data_versioning_pt1/main.html" />
+    <link rel="prev" title="NRLHL PASSTA" href="../intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pasta</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    NRLHL PASSTA
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Wonderful Minifloats
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../data_versioning_pt1/main.html">
+   Data Versioning Done Right.
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hidden_bias_argmax/main.html">
+   Argmax and Hidden Biases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../emd_study_pt1/main.html">
+   EMD Is Just MSE (Kinda)
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/dmtlvn/dmtlvn.github.io/master?urlpath=tree/minifloat_sim/main.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2Fminifloat_sim/main.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/minifloat_sim/main.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Wonderful Minifloats
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#customizing-ieee-754">
+   Customizing IEEE 754
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulating-fpn-quantization">
+   Simulating FP
+   <em>
+    n
+   </em>
+   Quantization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-considerations">
+   Practical Considerations
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Wonderful Minifloats</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Wonderful Minifloats
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#customizing-ieee-754">
+   Customizing IEEE 754
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulating-fpn-quantization">
+   Simulating FP
+   <em>
+    n
+   </em>
+   Quantization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-considerations">
+   Practical Considerations
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="wonderful-minifloats">
+<h1>Wonderful Minifloats<a class="headerlink" href="#wonderful-minifloats" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
+<p>Today I wanna talk about training deep neural networks for low performance devices. A common way to speed up neural nets is quantization. There are two main types of quantization:</p>
+<ol class="simple">
+<li><p>FP16 (16-bit floating point) quantization - the boring one. It leaves you enough precision to work with in general. Most modern deep learning frameworks support FP16 through some sort of mixed precision training where FP16 and FP32 operations are interleaved to ensure better numerical stability. FP16 numbers are supported by many hardware platforms nowadays, and op compatibility in Pytorch/TensorFlow is also good, which is nice, because you can do inference completely inside FP16 and have all the speed benefits. But it is only twice as compact as regular FP32, and we always want more.</p></li>
+<li><p>INT8 (8-bit fixed-point quantization) - the more funky one. It is also supported by main deep learning frameworks but has limited hardware support even as of today. Often the list of compatible ops is quite short which leads to either crashes or INT8-FP32 ops interleaving which kills all the performance gains. It is often used only for storage. But when your model is fully compatible - then it delivers!</p></li>
+</ol>
+<p>Besides these mainstream methods there is an obscure area of low-precision floating point computation. You see, floating point numbers are great for deep learning: they have smaller absolute error near zero, where most of the neural network parameters happen to be, and they also have a lot of range so dot products do not overflow. This is a really good trade off, whereas with INT8 you have either range or precision and nothing in between. You can use some finicky schemes like quantile encoding, sure. But I know you want to never leave that 8-bit wonderland and keep <em>all</em> computation in a low-precision format. Because this is where that sweet juicy performance™ really lies - cut the FP32 middleman! So the natural question arises: can we go beyond 16-bit floats? What about FP8? FP4 anyone?</p>
+<p>There are plenty of excellent sources about floating point numbers in general.</p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Floating-point_arithmetic">FP arithmetic</a> wiki</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">FP16 specification</a> wiki</p></li>
+<li><p>Great <a class="reference external" href="https://www.youtube.com/watch?v=dQhj5RGtag0">Jan Masali’s video</a> on FP numbers and IEEE 754 standard</p></li>
+</ol>
+<p>It is advised to be familiar with IEEE 754 format, distribution of FP numbers, absolute/relative errors, normal vs. subnormal numbers, overflow and underflow. But I will be covering these topics briefly anyway. Let’s begin.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="customizing-ieee-754">
+<h1>Customizing IEEE 754<a class="headerlink" href="#customizing-ieee-754" title="Permalink to this headline">#</a></h1>
+<p>IEEE 754 standard has specifications for half, single, double and some higher precision FP number formats. All of them have three components - sign bit (S), exponent (E), mantissa (M) - and are stored like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>S EEE...E  MMM...M
+ └── Nₑ ─┘└── Nₘ ─┘ 
+
+</pre></div>
+</div>
+<p>For example, a single precision (FP32) number is stored in 32 bits with 8 bits for the exponent and 23 bits for mantissa. The half precision (FP16) number has 5 exponent bits and 10 mantissa bits which totals to 16 bits (with 1 sign bit). Going from 32 to 16 bits drastically reduces precision and range of the number - but the factor of about 2<sup>112</sup>.</p>
+<p>The IEEE 754 representation can thus be parametrized by three numbers <span class="math notranslate nohighlight">\((N_E, N_M, B)\)</span> - length of the exponent in bits, length of the mantissa and the exponent bias, <span class="math notranslate nohighlight">\(N_E + N_M = \text{const}\)</span>. By changing these parameters we can exchange precision for range. If we plot the absolute representation error of floating point numbers we get a picture like this:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_3_0.png" src="../_images/main_3_0.png" />
+</div>
+</div>
+<p>The number line is split into <span class="math notranslate nohighlight">\(2^{E}\)</span> intervals, each one twice as big. Each interval contains <span class="math notranslate nohighlight">\(2^M\)</span> equally spaced numbers, therefore absolute error doubles for larger exponents, hence the steps on the graph. Having less mantissa bits halves the number of points per interval and doubles the error. Having less exponent bits halves the number of intervals and reduces the range. Exponent bias redistributes the intervals: larger bias means more intervals below 1 and vice versa. We’ll get to the implications of this in a minute.</p>
+<p>IEEE 754 provides kinda balanced parameters for all FP formats. For example, bias is always chosen to be <span class="math notranslate nohighlight">\(B = 2^{E-1} - 1\)</span> which gives us an equal range below and above 1. The size of the mantissa also follows a nice power law:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_5_0.png" src="../_images/main_5_0.png" />
+</div>
+</div>
+<p>For our custom FP format we can also choose to either keep or discard subnormals. Subnormals were introduced into IEEE 754 to prevent underflow. They evenly fill the space between 0 and the smallest normal number and thus have the same absolute error. However, not every chip supports them. We can also get extra range for normal numbers by removing subnormals, but there better be a good reason for that.</p>
+<p>Finally, there’s also representation for ±infinity and NaNs in IEEE 754. Yeah, you read it right: NaNs. There is not one but <span class="math notranslate nohighlight">\(2^M - 1\)</span> NaNs which is super wasteful when you have just a handful of bits to work with. The largest normal number has exponent <span class="math notranslate nohighlight">\(2^{E} - B - 1\)</span>. For FP16, for example, this corresponds to 15 or a bit sequence <code class="docutils literal notranslate"><span class="pre">11110</span></code>. The largest exponent value is reserved for infinities and NaNs. Positive/negative infinity has exponent <span class="math notranslate nohighlight">\(2^{E} - B\)</span> and zero mantissa while NaNs have non-zero mantissas to store information about the cause of a NaN. Instead we can use this last exponent value to give us twice the range. To handle overflow in this case we can just clip the value.</p>
+<p>These are essentially all our choices regarding customization of a FP number format besides actual bit arrangements. Different hardware platforms support either big- or little-endian formats or both. Endianness also depends on a compiler. I will provide big-endian examples for better readability.</p>
+<p>Let’s look at some examples. I will be using FP(M,E,B) notation to specify a particular choice of mantissa/exponent size and bias. There’s no sense to consider FP(M,0,B) numbers, as they are essentially fixed-point formats. FP(0,E,B) is a set of exponentially spaced numbers which can have some practical implications. I’ll also omit cases with NaNs/infinities as they are too wasteful and keeping them just reduces the range by half. Negative numbers are assumed by default, so I’ll drop them as well. Subnormals are important, however.</p>
+<blockquote>
+<div><p><strong>Example 1: FP2.</strong> This is a degenerate case. We have FP(0,1,0) and FP(1,0,0) but both of them produce a ternary number which can be achieved using integers just fine, so FP2 is kinda useless.</p>
+<hr class="docutils" />
+<p><strong>Example 2: FP3.</strong> FP(1,1,1) is the smallest non-trivial FP format. It can either include subnormals or not. Let’s take a look at these two cases. Additionally, let’s take a look at FP(0,2,2):</p>
+</div></blockquote>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_7_0.png" src="../_images/main_7_0.png" />
+</div>
+</div>
+<blockquote>
+<div><p>FP(1,1,1) appears to be practically useless. The first case has uneven lopsided distribution. The second case is just a fixed point number system. So out of the blue a number with <em>no mantissa</em> becomes the best choice for FP3. I should also note the effect of choosing a particular exponent bias. Bias changes multiplication tables. Let’s compare multiplication tables for FP(1,1,1)  and FP(1,1,0) and look at the indices of resulting numbers:</p>
+</div></blockquote>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:center head"><p>B = 1</p></th>
+<th class="text-align:center head"><p>-1.5</p></th>
+<th class="text-align:center head"><p>-1.0</p></th>
+<th class="text-align:center head"><p>-0.75</p></th>
+<th class="text-align:center head"><p>0.0</p></th>
+<th class="text-align:center head"><p>0.75</p></th>
+<th class="text-align:center head"><p>1.0</p></th>
+<th class="text-align:center head"><p>1.5</p></th>
+<th class="head"><p></p></th>
+<th class="head"><p>B = 0</p></th>
+<th class="head"><p>-3.0</p></th>
+<th class="head"><p>-2.0</p></th>
+<th class="head"><p>-1.5</p></th>
+<th class="head"><p>0.0</p></th>
+<th class="head"><p>1.5</p></th>
+<th class="head"><p>2.0</p></th>
+<th class="head"><p>3.0</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:center"><p><strong>-1.5</strong></p></td>
+<td class="text-align:center"><p>6</p></td>
+<td class="text-align:center"><p>6</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>1</p></td>
+<td class="text-align:center"><p>0</p></td>
+<td class="text-align:center"><p>0</p></td>
+<td><p></p></td>
+<td><p><strong>-3.0</strong></p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>-1.0</strong></p></td>
+<td class="text-align:center"><p>6</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>4</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>1</p></td>
+<td class="text-align:center"><p>0</p></td>
+<td><p></p></td>
+<td><p><strong>-2.0</strong></p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>-0.75</strong></p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>4</p></td>
+<td class="text-align:center"><p>4</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>1</p></td>
+<td><p></p></td>
+<td><p><strong>-1.5</strong></p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>3</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>0.0</strong></p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td><p></p></td>
+<td><p><strong>0.0</strong></p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>0.75</strong></p></td>
+<td class="text-align:center"><p>1</p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>4</p></td>
+<td class="text-align:center"><p>4</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td><p></p></td>
+<td><p><strong>1.5</strong></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><strong>1.0</strong></p></td>
+<td class="text-align:center"><p>0</p></td>
+<td class="text-align:center"><p>1</p></td>
+<td class="text-align:center"><p>2</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>4</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>6</p></td>
+<td><p></p></td>
+<td><p><strong>2.0</strong></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><strong>1.5</strong></p></td>
+<td class="text-align:center"><p>0</p></td>
+<td class="text-align:center"><p>0</p></td>
+<td class="text-align:center"><p>1</p></td>
+<td class="text-align:center"><p>3</p></td>
+<td class="text-align:center"><p>5</p></td>
+<td class="text-align:center"><p>6</p></td>
+<td class="text-align:center"><p>6</p></td>
+<td><p></p></td>
+<td><p><strong>3.0</strong></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p>Smaller bias makes the overall scale of the numbers bigger and overflow happens much more often. For larger biases multiplication tables tend to concentrate near zero. You can check that for <span class="math notranslate nohighlight">\(B = 2\)</span> yourself. So the choice of the bias matters and multiplication/addition tables are subject to a closer inspection when working with such low precision number systems.</p>
+<hr class="docutils" />
+<p><strong>Example 3: FP4.</strong> This is the first non-trivial format and also more practical one since two FP4 numbers can be packed into one byte. We have a couple of options here: FP(2,1,1) and FP(1,2,2). The bias is chosen such that there are 3 numbers above and below 1. Here’s what they look like:</p>
+</div></blockquote>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_9_0.png" src="../_images/main_9_0.png" />
+</div>
+</div>
+<blockquote>
+<div><p>Intuitively it may seem like FP(2,1,1) is a good number system, because mantissa is longer than the exponent, which is true for any standard FP number. Also our power law for mantissa size says it should be 2. But FP(2,1,1) with subnormals is just a fixed point number system and doesn’t make much sense. FP(2,1,1) has very uneven number distribution with a big gap between 0 and the smallest number which is not very practical as well. And kinda unexpectedly FP(1,2,2) turned out to be a better choice for the FP4 format. So mantissa doesn’t always need to be larger than the exponent.</p>
+</div></blockquote>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="simulating-fpn-quantization">
+<h1>Simulating FP<em>n</em> Quantization<a class="headerlink" href="#simulating-fpn-quantization" title="Permalink to this headline">#</a></h1>
+<p>Hardware with proper support for such specific numbers isn’t common. You should expect that you as a AI developer wouldn’t have access to such device at training time. I personally had to develop models for specialized NPUs in a almost black-box way where we only had datasheets for the chip and haven’t been able even to test the model on the chip ourselves, just to send it to a guy who managed the guy who had the access to the device and could run our tests. In such scenarios emulation is your only option. For that we can use the same method used to training INT8 models - fake quantization. So we need a fake quantizer for FPn, duh! Fake quantizer is just a fancy rounding function inserted before and/or after ops of interest. In our case it must be an FP rounding function and we can’t just apply <code class="docutils literal notranslate"><span class="pre">round()</span></code> and call it a day. So let’s create one.</p>
+<p>We’ll start with a prototype in pure Pytorch. It will be painfully slow but also much faster to create. Let’s make it step by step. I am going to write it for <code class="docutils literal notranslate"><span class="pre">torch.float</span></code> (i.e. FP32) inputs because nobody really cares about double precision in deep learning anyway and changing it to <code class="docutils literal notranslate"><span class="pre">half</span></code> or <code class="docutils literal notranslate"><span class="pre">double</span></code> is a matter of tweaking a couple of constants. First, we need to quantize  the mantissa. Immediate idea which came to my mind is something like this:</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mantissa is in [0.5, 1] range except for 0</span>
+<span class="n">mantissa</span><span class="p">,</span> <span class="n">exponent</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">frexp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  
+
+<span class="c1"># scaling to a range [0, 2^M] so rounding to the</span>
+<span class="c1"># nearest integer will produce 2^M values per exponent</span>
+<span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">M</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">scaled_mantissa</span> <span class="o">=</span> <span class="n">scale_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">mantissa</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># quantization is done here</span>
+<span class="n">int_mantissa</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">scaled_mantissa</span><span class="p">)</span>
+
+<span class="c1"># scaling back</span>
+<span class="n">quantized_mantissa</span> <span class="o">=</span> <span class="n">int_mantissa</span> <span class="o">/</span> <span class="n">scale_factor</span> <span class="o">+</span> <span class="mf">0.5</span>
+<span class="n">x_quantized</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ldexp</span><span class="p">(</span><span class="n">quantized_mantissa</span><span class="p">,</span> <span class="n">exponent</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Second, we need to adjust the range. Upper limit can be just thresholded. Lower limit requires a bit more fiddling. If there’s no subnormals, then everything below <span class="math notranslate nohighlight">\(2^{-B}\)</span> is just rounded to zero. If you wanna be more accurate, the “correct” cutoff threshold is <span class="math notranslate nohighlight">\(2^{-B-1} (1 + 2^{-M})\)</span>. But for subnormals we must perform usual fixed-point quantization for all numbers below <span class="math notranslate nohighlight">\(2^{1-B}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fp_quantizer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">use_subnormals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_inf</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># define some constants</span>
+    <span class="n">UNDERFLOW</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">B</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">M</span><span class="p">))</span>
+    <span class="n">NORMAL_MIN</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span>
+    <span class="n">NORMAL_MAX</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">E</span> <span class="o">-</span> <span class="n">B</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_inf</span> <span class="k">else</span> \
+                 <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">E</span> <span class="o">-</span> <span class="n">B</span> <span class="o">-</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> 
+    <span class="n">SUBNORMAL_STEP</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">B</span> <span class="o">-</span> <span class="n">M</span><span class="p">)</span>
+
+    <span class="c1"># mantissa is in [0.5, 1] range except for 0</span>
+    <span class="n">mantissa</span><span class="p">,</span> <span class="n">exponent</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">frexp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  
+
+    <span class="c1"># scaling to a range [0, 2^M-1]</span>
+    <span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">M</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">scaled_mantissa</span> <span class="o">=</span> <span class="n">scale_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">mantissa</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># quantization is done here</span>
+    <span class="n">int_mantissa</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">scaled_mantissa</span><span class="p">)</span>
+
+    <span class="c1"># scaling back</span>
+    <span class="n">quantized_mantissa</span> <span class="o">=</span> <span class="n">int_mantissa</span> <span class="o">/</span> <span class="n">scale_factor</span> <span class="o">+</span> <span class="mf">0.5</span>
+    <span class="n">x_quantized</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ldexp</span><span class="p">(</span><span class="n">quantized_mantissa</span><span class="p">,</span> <span class="n">exponent</span><span class="p">)</span>
+
+    <span class="c1"># dealing with subnormals</span>
+    <span class="k">if</span> <span class="n">use_subnormals</span><span class="p">:</span>
+        <span class="n">subnormals</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">SUBNORMAL_STEP</span><span class="p">)</span> <span class="o">*</span> <span class="n">SUBNORMAL_STEP</span>
+        <span class="n">x_quantized_subn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">NORMAL_MIN</span><span class="p">,</span> <span class="n">subnormals</span><span class="p">,</span> <span class="n">x_quantized</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_quantized_subn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">*</span><span class="n">UNDERFLOW</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">UNDERFLOW</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">sign</span><span class="p">(),</span> <span class="n">x_quantized</span><span class="p">)</span>
+        <span class="n">x_quantized_subn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">UNDERFLOW</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x_quantized_subn</span><span class="p">)</span>
+
+    <span class="c1"># limit range</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">x_quantized_subn</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="n">NORMAL_MAX</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="n">NORMAL_MAX</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">q</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This particular implementation is purely arithmetic and may not seem optimal in terms of performance considering the low-level nature of the problem. Another way to get the same result is to use bit masking. Lets recall how FP32 number is stored:</p>
+<p><code class="docutils literal notranslate"><span class="pre">SEEE</span> <span class="pre">EEEE</span> <span class="pre">EMMM</span> <span class="pre">MMMM</span> <span class="pre">MMMM</span> <span class="pre">MMMM</span> <span class="pre">MMMM</span> <span class="pre">MMMM</span></code></p>
+<p>Performing bitwise AND between FP32 float and a number:</p>
+<p><code class="docutils literal notranslate"><span class="pre">1111</span> <span class="pre">1111</span> <span class="pre">1111</span> <span class="pre">1111</span> <span class="pre">1111</span> <span class="pre">0000</span> <span class="pre">0000</span> <span class="pre">0000</span></code></p>
+<p>as a bit mask discards 12 least-significant bits of the mantissa and is equivalent to <code class="docutils literal notranslate"><span class="pre">floor()</span></code> function. We need <code class="docutils literal notranslate"><span class="pre">round()</span></code>, however. To achieve that we need to offset the input number by <span class="math notranslate nohighlight">\(2^{E_x - M - 2}\)</span> before masking, where <span class="math notranslate nohighlight">\(E_x\)</span> is the exponent value of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(M\)</span> is the target size of the mantissa. This offset corresponds to a half-width of the exponent interval <span class="math notranslate nohighlight">\(x\)</span> should fall in. But (un)fortunately this change doesn’t do much for the performance and I leave it to you to verify that. If you really need performance you should better write a custom CUDA kernel for it anyway, so I’ll stick to the original “arithmetic” version of the quantizer. On my GPU it takes on average about half-nanosecond per number for decently large tensors.</p>
+<p>This concludes our floating point quantizer. The graph of it is shown below:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_17_0.png" src="../_images/main_17_0.png" />
+</div>
+</div>
+<p>A little sanity check. Let’s compare this quantizer to some easily accessible low-precision FP format - FP16, which corresponds to FP(10, 5, 15) in our notation. They are indeed equal both near 0, near 1 and at “infinity”:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FP16 Test (10⁵ points)
+Range             Max. Absolute Error
+[ 2e-01,  2e+01]:	0.0
+[ 2e+13,  2e+16]:	0.0
+[-2e-12, +2e-12]:	0.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="practical-considerations">
+<h1>Practical Considerations<a class="headerlink" href="#practical-considerations" title="Permalink to this headline">#</a></h1>
+<p>To perform end-to-end training our quantizer must be differentiable. The natural choice for the derivative is to pretend that it is an identity function at backward pass and has derivative of 1. Of course, the derivative of our quantization function is zero almost everywhere and not 1, strictly speaking. But the same is true for FP32 numbers as well: they also perform quantization but much more fine-grained so the discrepancy isn’t really noticeable.</p>
+<blockquote>
+<div><p><strong>Side thought.</strong> This floating point quantization is present even for FP32. It introduces some noise into otherwise ideal analytical expressions. And the amplitude of this noise grows kinda linearly with the magnitude of the number because of the nature of floating point numbers: larger numbers are represented less precisely. Less noise at a smaller number means that more information is preserved there and it becomes a more preferable state for parameters of the model to be in. And this resembles some kind of regularization. Let’s take a closer look.</p>
+<p>Let <span class="math notranslate nohighlight">\(\varepsilon\)</span> be i.i.d. random variable with mean <span class="math notranslate nohighlight">\(\mathbb{E}[\varepsilon] = 0\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>. Consider a following linear regression problem then:</p>
+<div class="math notranslate nohighlight">
+\[ \hat{y}_i = (x_i + x_i \varepsilon)^T w\]</div>
+<p>The term <span class="math notranslate nohighlight">\(x_i \varepsilon\)</span> here simulates our floating point quantization noise, because <span class="math notranslate nohighlight">\(\text{std}(x_i \varepsilon) = x_i \sigma\)</span> and grows linearly with <span class="math notranslate nohighlight">\(x_i\)</span>. Now let’s write down a least-squares solution to this regression problem:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} L(w) = \mathbb{E} \left[ \frac{1}{n} \sum_{i=1}^n \left( y_i - \hat{y}_i \right)^2 \right] 
+    = \mathbb{E} \left[ \frac{1}{n} \sum_{i=1}^n \left( y_i - (x_i + x_i \varepsilon)^T w \right)^2 \right] \\
+    = \mathbb{E} \left[ \frac{1}{n} \sum_{i=1}^n \left( \left( y_i - x_i^T w \right) - \varepsilon x_i^T w \right)^2 \right] \end{split}\]</div>
+<p>After expanding the square and moving expectation in we obtain:</p>
+<div class="math notranslate nohighlight">
+\[ L(w) = \frac{1}{n} \sum_{i=1}^n \left( y_i - x_i^T w \right)^2 + \sigma^2 w^T \mathbb{E} \left[ x_i x_i^T \right] w \]</div>
+<p>We can make the matrix <span class="math notranslate nohighlight">\(\mathbb{E} \left[ x_i x_i^T \right]\)</span> into an identity matrix by centering and whitening <span class="math notranslate nohighlight">\(x_i\)</span>. In this case we’d get:</p>
+<div class="math notranslate nohighlight">
+\[ L(w) = \frac{1}{n} \sum_{i=1}^n \left( y_i - x_i^T w \right)^2 + \sigma^2 \|w\|^2 \]</div>
+<p>which is exactly the expression for <span class="math notranslate nohighlight">\(L_2\)</span>-regularized least squares with regularization strength <span class="math notranslate nohighlight">\(\lambda = \sigma^2\)</span>. This regularization is very weak however. Suppose a floating point number has M mantissa bits then <span class="math notranslate nohighlight">\(\lambda \sim 2^{-2(M+1)}\)</span>. Here are some values for different FP numbers:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>Type</p></th>
+<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>FP32</p></td>
+<td class="text-align:center"><p>~10<sup>-15</sup></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>FP16</p></td>
+<td class="text-align:center"><p>~10<sup>-7</sup></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>FP8(3,4,7)</p></td>
+<td class="text-align:center"><p>0.0039</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>FP4(1,2,2)</p></td>
+<td class="text-align:center"><p>0.0625</p></td>
+</tr>
+</tbody>
+</table>
+<p>We can observe that this regularization due to quantization becomes significant even for FP16 and for less precise numbers it should definitely be accounted for. This is interesting on its own but let’s get back to the derivatives.</p>
+</div></blockquote>
+<p>But overflow becomes <em>very</em> prominent at such low precision, so a more accurate way of thinking about our quantizer is like HardTanh: it has derivative of 1 inside a linear region and 0 everywhere else. Doing so eliminates the discrepancy between forward and backward passes and reduces noise outside the linear region. There’s a little subtlety about how to define this linear region. Earlier we found the maximum representable number as <span class="math notranslate nohighlight">\(2^{2^E - B} \cdot (1 - 2^{-M-1})\)</span> (if infinity is omitted). However, the linear region of our quantizer should go a bit beyond that to cover the neighborhood of the largest number properly. Thus the derivative threshold should be just <span class="math notranslate nohighlight">\(2^{2^E - B}\)</span>. Putting it all together we get a <code class="docutils literal notranslate"><span class="pre">minifloat()</span></code> autograd function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">minifloat</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">use_subnormals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_inf</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">thresh</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">E</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fp_quantizer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">use_subnormals</span> <span class="o">=</span> <span class="n">use_subnormals</span><span class="p">,</span> <span class="n">use_inf</span> <span class="o">=</span> <span class="n">use_inf</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">ctx</span><span class="o">.</span><span class="n">thresh</span>
+        <span class="n">gx</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">*</span> <span class="n">grad_output</span>
+        <span class="k">return</span> <span class="n">gx</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here are its graphs:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_23_0.png" src="../_images/main_23_0.png" />
+</div>
+</div>
+<p>Second, don’t repeat my mistakes and never do quantization-aware training like this:</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prehook</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">minifloat</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">minifloat</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">minifloat</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inputs</span>
+
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">quantized_layers</span><span class="p">:</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">register_forward_pre_hook</span><span class="p">(</span><span class="n">prehook</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Fake quantizer must <em>never</em> be in-place or otherwise modify real weights! This prevents small backprop steps to accumulate and change a quantized value which in turn leads to total training standstill.</p>
+<p>Another important thing is initialization. Now with modern powerful hardware able to run big models in a overparameterized regime the problem of vanishing/exploding gradients is rarely observed. But low precision and limited range of minifloats bring it back in the <strong>boldest</strong> form possible! Our quantizer underflows and saturates easily. Without proper initialization training won’t even start. Usual unit-variance initializers based on theoretical variance estimates, like He or Xavier, are too unstable - small deviations accumulate real fast. Sometimes they work, sometimes they don’t. A more reliable way is to use an explicit iterative data-based procedure from <a class="reference external" href="https://arxiv.org/pdf/1511.06422.pdf">Mishkin (2015)</a> or similar:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_28_0.png" src="../_images/main_28_0.png" />
+</div>
+</div>
+<p>Sometimes He initializer diverges even at first layers while explicit variance scaling stays in line.</p>
+<p>Finally, the limited range of a minifloat can become a problem when computing losses. Take our friend FP4(1,2,2), for example. The biggest number in FP4 is 3. If our activations are in FP4 this means that logits of the classifier are also limited to the range [-3,+3]. This creates a lower limit on the cross-entropy, because <span class="math notranslate nohighlight">\(-\log(\sigma(3)) \approx 0.049\)</span>. To allow cross-entropy to go all the way to 0 we need to add logit scaling during loss computation by some factor (about 4-5 for FP4).</p>
+<blockquote>
+<div><p><strong>Side thought.</strong> The same is actually true for any non-linear functions. ReLU is safe but only because it has only two regimes and is scale-invariant. Other functions like <span class="math notranslate nohighlight">\(\tanh\)</span> may not saturate because of insufficient range of minifloat inputs. Activations like Swish and SELU most likely lose their properties as well not only because of small range but because of the too discrete nature of the inputs. This suggests that number systems like FP4 may require their own special activation functions. Considering that FP4 has only 15 representable numbers (besides -0.0), it may be faster and easier to just create lookup tables for such functions.</p>
+</div></blockquote>
+<p>These things alone (proper derivative, initialization, logit scaling and <em>not being dumb</em>) make it possible to reliably train a small convnet on MNIST (don’t beat me too hard, it’s just for tests) in FP4(1,2,2) - both inputs, weights and activations - to the test accuracy of 97% in 1000 iterations which is kinda remarkable in my opinion. FP8(3,4,7) pushes it to 99%. Isn’t it neat?</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
+<p>Today we’ve peaked into an obscure area of low-precision floating point computation, generalized IEEE 754 format to arbitrary bit lengths and learned that at such extremes we should care even about things like multiplication tables. We’ve also created a minifloat quantizer for PyTorch and demonstrated that we can effectively train models in FP4. In a short detour we’ve also established a connection between floating point precision and <span class="math notranslate nohighlight">\(L_2\)</span>-regularization which is a fun little thing on its own.</p>
+<p>Unfortunately, our quantizer is still not a <em>true</em> minifloat arithmetic, and many operations are performed in FP32 under the hood. The <em>true</em> minifloat arithmetic would perform rounding at every operation which would change results as minifloats aren’t closed under addition nor multiplication: 2 + 0.75 in FP4 is equal to 2.75 which is not in FP4 and must be rounded up to 3. This rounding doesn’t occur in our simulations and we need either proper hardware for that or software emulation at low level. PyTorch isn’t really a place for such shenanigans. Imagine how cool it would be to have a FP4 or at least FP8 backend for PyTorch! But this is a story for another time. It’s too late already. Good night.</p>
+<p><strong>P.S.</strong> Just before I go, here’s a nice paper about FP8 NPU chip design for you: <a class="reference external" href="https://arxiv.org/pdf/2003.02628.pdf">Phoenix: A Low-Precision Floating-Point Quantization Oriented Architecture for Convolutional Neural Networks</a></p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./minifloat_sim"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../data_versioning_pt1/main.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Versioning Done Right.</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Dmytro Levin<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

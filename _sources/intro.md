@@ -6,6 +6,14 @@
 
 -----------------------------------
 
+### [Wonderful Minifloats](minifloat_sim/main)
+
+Today we are diving (or at least getting our feet wet) into low-precision floating point arithmetic and create our own 4-bit float simulation in PyTorch
+
+*May 3, 2023*
+
+-----------------------------------
+
 ### [Data Versioning Done Right.](data_versioning_pt1/main)
 
 *(said with confidence to generate clicks; hopes that actual MLOps won't give him too much of a beating)*
