@@ -458,14 +458,14 @@ title="Print to PDF"
 <p>The IEEE 754 representation can thus be parametrized by three numbers <span class="math notranslate nohighlight">\((N_E, N_M, B)\)</span> - length of the exponent in bits, length of the mantissa and the exponent bias, <span class="math notranslate nohighlight">\(N_E + N_M = \text{const}\)</span>. By changing these parameters we can exchange precision for range. If we plot the absolute representation error of floating point numbers we get a picture like this:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_3_0.png" src="../_images/main_3_0.png" />
+<img alt="../_images/main_3_01.png" src="../_images/main_3_01.png" />
 </div>
 </div>
 <p>The number line is split into <span class="math notranslate nohighlight">\(2^{E}\)</span> intervals, each one twice as big. Each interval contains <span class="math notranslate nohighlight">\(2^M\)</span> equally spaced numbers, therefore absolute error doubles for larger exponents, hence the steps on the graph. Having less mantissa bits halves the number of points per interval and doubles the error. Having less exponent bits halves the number of intervals and reduces the range. Exponent bias redistributes the intervals: larger bias means more intervals below 1 and vice versa. We’ll get to the implications of this in a minute.</p>
 <p>IEEE 754 provides kinda balanced parameters for all FP formats. For example, bias is always chosen to be <span class="math notranslate nohighlight">\(B = 2^{E-1} - 1\)</span> which gives us an equal range below and above 1. The size of the mantissa also follows a nice power law:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_5_0.png" src="../_images/main_5_0.png" />
+<img alt="../_images/main_5_01.png" src="../_images/main_5_01.png" />
 </div>
 </div>
 <p>For our custom FP format we can also choose to either keep or discard subnormals. Subnormals were introduced into IEEE 754 to prevent underflow. They evenly fill the space between 0 and the smallest normal number and thus have the same absolute error. However, not every chip supports them. We can also get extra range for normal numbers by removing subnormals, but there better be a good reason for that.</p>
@@ -479,7 +479,7 @@ title="Print to PDF"
 </div></blockquote>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_7_0.png" src="../_images/main_7_0.png" />
+<img alt="../_images/main_7_01.png" src="../_images/main_7_01.png" />
 </div>
 </div>
 <blockquote>
@@ -804,7 +804,7 @@ Range             Max. Absolute Error
 <p>And here are its graphs:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_23_0.png" src="../_images/main_23_0.png" />
+<img alt="../_images/main_23_01.png" src="../_images/main_23_01.png" />
 </div>
 </div>
 <p>Second, don’t repeat my mistakes and never do quantization-aware training like this:</p>
@@ -827,7 +827,7 @@ Range             Max. Absolute Error
 <p>Another important thing is initialization. Now with modern powerful hardware able to run big models in a overparameterized regime the problem of vanishing/exploding gradients is rarely observed. But low precision and limited range of minifloats bring it back in the <strong>boldest</strong> form possible! Our quantizer underflows and saturates easily. Without proper initialization training won’t even start. Usual unit-variance initializers based on theoretical variance estimates, like He or Xavier, are too unstable - small deviations accumulate real fast. Sometimes they work, sometimes they don’t. A more reliable way is to use an explicit iterative data-based procedure from <a class="reference external" href="https://arxiv.org/pdf/1511.06422.pdf">Mishkin (2015)</a> or similar:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_28_0.png" src="../_images/main_28_0.png" />
+<img alt="../_images/main_28_01.png" src="../_images/main_28_01.png" />
 </div>
 </div>
 <p>Sometimes He initializer diverges even at first layers while explicit variance scaling stays in line.</p>
