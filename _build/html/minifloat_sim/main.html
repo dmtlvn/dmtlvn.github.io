@@ -485,156 +485,11 @@ title="Print to PDF"
 <blockquote>
 <div><p>FP(1,1,1) appears to be practically useless. The first case has uneven lopsided distribution. The second case is just a fixed point number system. So out of the blue a number with <em>no mantissa</em> becomes the best choice for FP3. I should also note the effect of choosing a particular exponent bias. Bias changes multiplication tables. Let’s compare multiplication tables for FP(1,1,1)  and FP(1,1,0) and look at the indices of resulting numbers:</p>
 </div></blockquote>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="text-align:center head"><p>B = 1</p></th>
-<th class="text-align:center head"><p>-1.5</p></th>
-<th class="text-align:center head"><p>-1.0</p></th>
-<th class="text-align:center head"><p>-0.75</p></th>
-<th class="text-align:center head"><p>0.0</p></th>
-<th class="text-align:center head"><p>0.75</p></th>
-<th class="text-align:center head"><p>1.0</p></th>
-<th class="text-align:center head"><p>1.5</p></th>
-<th class="head"><p></p></th>
-<th class="head"><p>B = 0</p></th>
-<th class="head"><p>-3.0</p></th>
-<th class="head"><p>-2.0</p></th>
-<th class="head"><p>-1.5</p></th>
-<th class="head"><p>0.0</p></th>
-<th class="head"><p>1.5</p></th>
-<th class="head"><p>2.0</p></th>
-<th class="head"><p>3.0</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-align:center"><p><strong>-1.5</strong></p></td>
-<td class="text-align:center"><p>6</p></td>
-<td class="text-align:center"><p>6</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td><p></p></td>
-<td><p><strong>-3.0</strong></p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>3</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:center"><p><strong>-1.0</strong></p></td>
-<td class="text-align:center"><p>6</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>4</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td><p></p></td>
-<td><p><strong>-2.0</strong></p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>3</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:center"><p><strong>-0.75</strong></p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>4</p></td>
-<td class="text-align:center"><p>4</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td><p></p></td>
-<td><p><strong>-1.5</strong></p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>5</p></td>
-<td><p>3</p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:center"><p><strong>0.0</strong></p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td><p></p></td>
-<td><p><strong>0.0</strong></p></td>
-<td><p>3</p></td>
-<td><p>3</p></td>
-<td><p>3</p></td>
-<td><p>3</p></td>
-<td><p>3</p></td>
-<td><p>3</p></td>
-<td><p>3</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:center"><p><strong>0.75</strong></p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>4</p></td>
-<td class="text-align:center"><p>4</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td><p></p></td>
-<td><p><strong>1.5</strong></p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>1</p></td>
-<td><p>3</p></td>
-<td><p>5</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:center"><p><strong>1.0</strong></p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>2</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>4</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>6</p></td>
-<td><p></p></td>
-<td><p><strong>2.0</strong></p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>3</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-</tr>
-<tr class="row-even"><td class="text-align:center"><p><strong>1.5</strong></p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>0</p></td>
-<td class="text-align:center"><p>1</p></td>
-<td class="text-align:center"><p>3</p></td>
-<td class="text-align:center"><p>5</p></td>
-<td class="text-align:center"><p>6</p></td>
-<td class="text-align:center"><p>6</p></td>
-<td><p></p></td>
-<td><p><strong>3.0</strong></p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>3</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-<td><p>6</p></td>
-</tr>
-</tbody>
-</table>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/main_9_0.png" src="../_images/main_9_0.png" />
+</div>
+</div>
 <blockquote>
 <div><p>Smaller bias makes the overall scale of the numbers bigger and overflow happens much more often. For larger biases multiplication tables tend to concentrate near zero. You can check that for <span class="math notranslate nohighlight">\(B = 2\)</span> yourself. So the choice of the bias matters and multiplication/addition tables are subject to a closer inspection when working with such low precision number systems.</p>
 <hr class="docutils" />
@@ -642,7 +497,7 @@ title="Print to PDF"
 </div></blockquote>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_9_0.png" src="../_images/main_9_0.png" />
+<img alt="../_images/main_11_0.png" src="../_images/main_11_0.png" />
 </div>
 </div>
 <blockquote>
@@ -721,7 +576,7 @@ title="Print to PDF"
 <p>This concludes our floating point quantizer. The graph of it is shown below:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_17_0.png" src="../_images/main_17_0.png" />
+<img alt="../_images/main_19_0.png" src="../_images/main_19_0.png" />
 </div>
 </div>
 <p>A little sanity check. Let’s compare this quantizer to some easily accessible low-precision FP format - FP16, which corresponds to FP(10, 5, 15) in our notation. They are indeed equal both near 0, near 1 and at “infinity”:</p>
@@ -756,7 +611,7 @@ Range             Max. Absolute Error
 <p>We can make the matrix <span class="math notranslate nohighlight">\(\mathbb{E} \left[ x_i x_i^T \right]\)</span> into an identity matrix by centering and whitening <span class="math notranslate nohighlight">\(x_i\)</span>. In this case we’d get:</p>
 <div class="math notranslate nohighlight">
 \[ L(w) = \frac{1}{n} \sum_{i=1}^n \left( y_i - x_i^T w \right)^2 + \sigma^2 \|w\|^2 \]</div>
-<p>which is exactly the expression for <span class="math notranslate nohighlight">\(L_2\)</span>-regularized least squares with regularization strength <span class="math notranslate nohighlight">\(\lambda = \sigma^2\)</span>. This regularization is very weak however. Suppose a floating point number has M mantissa bits then <span class="math notranslate nohighlight">\(\lambda \sim 2^{-2(M+1)}\)</span>. Here are some values for different FP numbers:</p>
+<p>which is exactly the expression for <span class="math notranslate nohighlight">\(L_2\)</span>-regularized least squares with regularization strength <span class="math notranslate nohighlight">\(\lambda = \sigma^2\)</span>. This regularization is very weak however. Suppose a floating point number has M mantissa bits and exponent bias B. Then smallest rounding error is equal to <span class="math notranslate nohighlight">\(\delta = 2^{-M-B}\)</span>. Assuming a uniform error distribution the regularization strength is <span class="math notranslate nohighlight">\(\lambda = \frac{1}{12} (2\delta)^2 = \frac{1}{3} \delta^2\)</span>. Here are some <span class="math notranslate nohighlight">\(\lambda\)</span> values for different FP numbers:</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p>Type</p></th>
@@ -765,20 +620,20 @@ Range             Max. Absolute Error
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>FP32</p></td>
-<td class="text-align:center"><p>~10<sup>-15</sup></p></td>
+<td class="text-align:center"><p>~10<sup>-91</sup></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>FP16</p></td>
-<td class="text-align:center"><p>~10<sup>-7</sup></p></td>
+<td class="text-align:center"><p>~10<sup>-16</sup></p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>FP8(3,4,7)</p></td>
-<td class="text-align:center"><p>0.0039</p></td>
+<td class="text-align:center"><p>~10<sup>-7</sup></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>FP4(1,2,2)</p></td>
-<td class="text-align:center"><p>0.0625</p></td>
+<td class="text-align:center"><p>0.0052</p></td>
 </tr>
 </tbody>
 </table>
-<p>We can observe that this regularization due to quantization becomes significant even for FP16 and for less precise numbers it should definitely be accounted for. This is interesting on its own but let’s get back to the derivatives.</p>
+<p>We can observe that this regularization due to quantization becomes significant for FP8 and for FP4 it should definitely be accounted for. This is interesting on its own but let’s get back to the derivatives.</p>
 </div></blockquote>
 <p>But overflow becomes <em>very</em> prominent at such low precision, so a more accurate way of thinking about our quantizer is like HardTanh: it has derivative of 1 inside a linear region and 0 everywhere else. Doing so eliminates the discrepancy between forward and backward passes and reduces noise outside the linear region. There’s a little subtlety about how to define this linear region. Earlier we found the maximum representable number as <span class="math notranslate nohighlight">\(2^{2^E - B} \cdot (1 - 2^{-M-1})\)</span> (if infinity is omitted). However, the linear region of our quantizer should go a bit beyond that to cover the neighborhood of the largest number properly. Thus the derivative threshold should be just <span class="math notranslate nohighlight">\(2^{2^E - B}\)</span>. Putting it all together we get a <code class="docutils literal notranslate"><span class="pre">minifloat()</span></code> autograd function:</p>
 <div class="cell docutils container">
@@ -804,7 +659,7 @@ Range             Max. Absolute Error
 <p>And here are its graphs:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_23_01.png" src="../_images/main_23_01.png" />
+<img alt="../_images/main_25_01.png" src="../_images/main_25_01.png" />
 </div>
 </div>
 <p>Second, don’t repeat my mistakes and never do quantization-aware training like this:</p>
@@ -824,14 +679,14 @@ Range             Max. Absolute Error
 </div>
 </div>
 <p>Fake quantizer must <em>never</em> be in-place or otherwise modify real weights! This prevents small backprop steps to accumulate and change a quantized value which in turn leads to total training standstill.</p>
-<p>Another important thing is initialization. Now with modern powerful hardware able to run big models in a overparameterized regime the problem of vanishing/exploding gradients is rarely observed. But low precision and limited range of minifloats bring it back in the <strong>boldest</strong> form possible! Our quantizer underflows and saturates easily. Without proper initialization training won’t even start. Usual unit-variance initializers based on theoretical variance estimates, like He or Xavier, are too unstable - small deviations accumulate real fast. Sometimes they work, sometimes they don’t. A more reliable way is to use an explicit iterative data-based procedure from <a class="reference external" href="https://arxiv.org/pdf/1511.06422.pdf">Mishkin (2015)</a> or similar:</p>
+<p>Another important thing is initialization. Now with modern powerful hardware able to run big models in a overparameterized regime the problem of vanishing/exploding gradients is rarely observed. But low precision and limited range of minifloats bring it back in the <strong>boldest</strong> form possible! Our quantizer underflows and saturates easily. Without proper initialization training won’t even start. Variance scaling at initialization is mandatory. But usual unit-variance initializers based on theoretical variance estimates, like He or Xavier, are too unstable - small deviations accumulate real fast. Sometimes they work, sometimes they don’t. A more reliable way is to use an explicit iterative data-based procedure from <a class="reference external" href="https://arxiv.org/pdf/1511.06422.pdf">Mishkin (2015)</a> or similar:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../_images/main_28_01.png" src="../_images/main_28_01.png" />
+<img alt="../_images/main_30_0.png" src="../_images/main_30_0.png" />
 </div>
 </div>
 <p>Sometimes He initializer diverges even at first layers while explicit variance scaling stays in line.</p>
-<p>Finally, the limited range of a minifloat can become a problem when computing losses. Take our friend FP4(1,2,2), for example. The biggest number in FP4 is 3. If our activations are in FP4 this means that logits of the classifier are also limited to the range [-3,+3]. This creates a lower limit on the cross-entropy, because <span class="math notranslate nohighlight">\(-\log(\sigma(3)) \approx 0.049\)</span>. To allow cross-entropy to go all the way to 0 we need to add logit scaling during loss computation by some factor (about 4-5 for FP4).</p>
+<p>Finally, the limited range of a minifloat can become a problem when computing losses. Take our friend FP4(1,2,2), for example. The biggest number in FP4 is 3. If our activations are in FP4 this means that logits of the classifier are also limited to the range [-3,+3]. This creates a lower limit on the cross-entropy, because <span class="math notranslate nohighlight">\(\log(\sigma(3)) \approx -0.049\)</span>. To allow cross-entropy to go all the way to 0 we need to add logit scaling during loss computation by some factor (about 4-5 for FP4).</p>
 <blockquote>
 <div><p><strong>Side thought.</strong> The same is actually true for any non-linear functions. ReLU is safe but only because it has only two regimes and is scale-invariant. Other functions like <span class="math notranslate nohighlight">\(\tanh\)</span> may not saturate because of insufficient range of minifloat inputs. Activations like Swish and SELU most likely lose their properties as well not only because of small range but because of the too discrete nature of the inputs. This suggests that number systems like FP4 may require their own special activation functions. Considering that FP4 has only 15 representable numbers (besides -0.0), it may be faster and easier to just create lookup tables for such functions.</p>
 </div></blockquote>
@@ -839,7 +694,7 @@ Range             Max. Absolute Error
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
-<p>Today we’ve peaked into an obscure area of low-precision floating point computation, generalized IEEE 754 format to arbitrary bit lengths and learned that at such extremes we should care even about things like multiplication tables. We’ve also created a minifloat quantizer for PyTorch and demonstrated that we can effectively train models in FP4. In a short detour we’ve also established a connection between floating point precision and <span class="math notranslate nohighlight">\(L_2\)</span>-regularization which is a fun little thing on its own.</p>
+<p>Today we’ve peeked into an obscure area of low-precision floating point computation, generalized IEEE 754 format to arbitrary bit lengths and learned that at such extremes we should care even about things like multiplication tables. We’ve also created a minifloat quantizer for PyTorch and demonstrated that we can effectively train models in FP4. In a short detour we’ve also established a connection between floating point precision and <span class="math notranslate nohighlight">\(L_2\)</span>-regularization which is a fun little thing on its own.</p>
 <p>Unfortunately, our quantizer is still not a <em>true</em> minifloat arithmetic, and many operations are performed in FP32 under the hood. The <em>true</em> minifloat arithmetic would perform rounding at every operation which would change results as minifloats aren’t closed under addition nor multiplication: 2 + 0.75 in FP4 is equal to 2.75 which is not in FP4 and must be rounded up to 3. This rounding doesn’t occur in our simulations and we need either proper hardware for that or software emulation at low level. PyTorch isn’t really a place for such shenanigans. Imagine how cool it would be to have a FP4 or at least FP8 backend for PyTorch! But this is a story for another time. It’s too late already. Good night.</p>
 <p><strong>P.S.</strong> Just before I go, here’s a nice paper about FP8 NPU chip design for you: <a class="reference external" href="https://arxiv.org/pdf/2003.02628.pdf">Phoenix: A Low-Precision Floating-Point Quantization Oriented Architecture for Convolutional Neural Networks</a></p>
 </section>

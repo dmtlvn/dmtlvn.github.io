@@ -8,7 +8,10 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import torch.nn.functional as ptf
+import warnings
 from PIL import Image
+
+warnings.filterwarnings("ignore")
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
@@ -132,24 +135,63 @@ plt.tight_layout()
 
 
 # > FP(1,1,1) appears to be practically useless. The first case has uneven lopsided distribution. The second case is just a fixed point number system. So out of the blue a number with *no mantissa* becomes the best choice for FP3. I should also note the effect of choosing a particular exponent bias. Bias changes multiplication tables. Let's compare multiplication tables for FP(1,1,1)  and FP(1,1,0) and look at the indices of resulting numbers:
-# 
-# | B = 1 | -1.5 | -1.0 | -0.75 | 0.0 | 0.75 | 1.0 | 1.5 | | B = 0 | -3.0 | -2.0 | -1.5 | 0.0 | 1.5 | 2.0 | 3.0 | 
-# | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | - | -- | -- | -- | -- | -- | -- | -- | -- |
-# | **-1.5**  | 6 | 6 | 5 | 3 | 1 | 0 | 0 | | **-3.0** | 6 | 6 | 6 | 3 | 0 | 0 | 0 |
-# | **-1.0**  | 6 | 5 | 4 | 3 | 2 | 1 | 0 | | **-2.0** | 6 | 6 | 6 | 3 | 0 | 0 | 0 |
-# | **-0.75** | 5 | 4 | 4 | 3 | 2 | 2 | 1 | | **-1.5** | 6 | 6 | 5 | 3 | 1 | 0 | 0 |
-# | **0.0**   | 3 | 3 | 3 | 3 | 3 | 3 | 3 | | **0.0**  | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
-# | **0.75**  | 1 | 2 | 2 | 3 | 4 | 4 | 5 | | **1.5**  | 0 | 0 | 1 | 3 | 5 | 6 | 6 |
-# | **1.0**   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | | **2.0**  | 0 | 0 | 0 | 3 | 6 | 6 | 6 |
-# | **1.5**   | 0 | 0 | 1 | 3 | 5 | 6 | 6 | | **3.0**  | 0 | 0 | 0 | 3 | 6 | 6 | 6 |
-#  
+
+# In[5]:
+
+
+B1 = np.array([
+    [6, 6, 5, 3, 1, 0, 0], 
+    [6, 5, 4, 3, 2, 1, 0], 
+    [5, 4, 4, 3, 2, 2, 1], 
+    [3, 3, 3, 3, 3, 3, 3], 
+    [1, 2, 2, 3, 4, 4, 5], 
+    [0, 1, 2, 3, 4, 5, 6], 
+    [0, 0, 1, 3, 5, 6, 6],
+])
+
+B0 = np.array([
+    [6, 6, 6, 3, 0, 0, 0],
+    [6, 6, 6, 3, 0, 0, 0],
+    [6, 6, 5, 3, 1, 0, 0],
+    [3, 3, 3, 3, 3, 3, 3],
+    [0, 0, 1, 3, 5, 6, 6],
+    [0, 0, 0, 3, 6, 6, 6],
+    [0, 0, 0, 3, 6, 6, 6],
+])
+
+plt.figure(figsize = (8,3))
+plt.subplot(1,2,1)
+plt.title('Bias = 1')
+plt.imshow(B1, cmap = 'seismic')
+plt.hlines([-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5], xmin = -0.5, xmax = 6.5, color = 'black')
+plt.vlines([-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5], ymin = -0.5, ymax = 6.5, color = 'black')
+plt.ylim(-0.5, 6.5)
+plt.yticks([0, 1, 2, 3, 4, 5, 6], [1.5, 1, 0.75, 0, -0.75, -1, -1.5])
+plt.xticks([0, 1, 2, 3, 4, 5, 6], [-1.5, -1, -0.75, 0, 0.75, 1, 1.5])
+plt.gca().xaxis.tick_top()
+plt.colorbar().set_ticklabels([-1.5, -1, -0.75, 0, 0.75, 1, 1.5])
+
+plt.subplot(1,2,2)
+plt.title('Bias = 0')
+plt.imshow(B0, cmap = 'seismic')
+plt.hlines([-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5], xmin = -0.5, xmax = 6.5, color = 'black')
+plt.vlines([-0.5, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5], ymin = -0.5, ymax = 6.5, color = 'black')
+plt.ylim(-0.5, 6.5)
+plt.yticks([0, 1, 2, 3, 4, 5, 6], [1.5, 1, 0.75, 0, -0.75, -1, -1.5])
+plt.xticks([0, 1, 2, 3, 4, 5, 6], [-1.5, -1, -0.75, 0, 0.75, 1, 1.5])
+plt.gca().xaxis.tick_top()
+plt.colorbar().set_ticklabels([-1.5, -1, -0.75, 0, 0.75, 1, 1.5])
+
+plt.tight_layout()
+
+
 # > Smaller bias makes the overall scale of the numbers bigger and overflow happens much more often. For larger biases multiplication tables tend to concentrate near zero. You can check that for $B = 2$ yourself. So the choice of the bias matters and multiplication/addition tables are subject to a closer inspection when working with such low precision number systems.
 # >
 # > --------------------------
 # >
 # > **Example 3: FP4.** This is the first non-trivial format and also more practical one since two FP4 numbers can be packed into one byte. We have a couple of options here: FP(2,1,1) and FP(1,2,2). The bias is chosen such that there are 3 numbers above and below 1. Here's what they look like:
 
-# In[5]:
+# In[6]:
 
 
 plt.figure(figsize = (8,4))
@@ -197,7 +239,7 @@ plt.tight_layout()
 # 
 # We'll start with a prototype in pure Pytorch. It will be painfully slow but also much faster to create. Let's make it step by step. I am going to write it for `torch.float` (i.e. FP32) inputs because nobody really cares about double precision in deep learning anyway and changing it to `half` or `double` is a matter of tweaking a couple of constants. First, we need to quantize  the mantissa. Immediate idea which came to my mind is something like this:
 
-# In[6]:
+# In[7]:
 
 
 # mantissa is in [0.5, 1] range except for 0
@@ -329,16 +371,16 @@ print(f"[-2e-12, +2e-12]:\t{(fp16_q - fp16_ref).abs().max()}")
 # >
 # > $$ L(w) = \frac{1}{n} \sum_{i=1}^n \left( y_i - x_i^T w \right)^2 + \sigma^2 \|w\|^2 $$
 # > 
-# > which is exactly the expression for $L_2$-regularized least squares with regularization strength $\lambda = \sigma^2$. This regularization is very weak however. Suppose a floating point number has M mantissa bits then $\lambda \sim 2^{-2(M+1)}$. Here are some values for different FP numbers:
+# > which is exactly the expression for $L_2$-regularized least squares with regularization strength $\lambda = \sigma^2$. This regularization is very weak however. Suppose a floating point number has M mantissa bits and exponent bias B. Then smallest rounding error is equal to $\delta = 2^{-M-B}$. Assuming a uniform error distribution the regularization strength is $\lambda = \frac{1}{12} (2\delta)^2 = \frac{1}{3} \delta^2$. Here are some $\lambda$ values for different FP numbers:
 # >
-# > | Type       | $\lambda$         |
-# > |:-----------|:-----------------:|
-# > | FP32       | ~10<sup>-15</sup> |
-# > | FP16       | ~10<sup>-7</sup>  |
-# > | FP8(3,4,7) | 0.0039            |
-# > | FP4(1,2,2) | 0.0625            |
+# > | Type       | $\lambda$           |
+# > |:-----------|:-------------------:|
+# > | FP32       | ~10<sup>-91</sup>   |
+# > | FP16       | ~10<sup>-16</sup>   |
+# > | FP8(3,4,7) | ~10<sup>-7</sup>    |
+# > | FP4(1,2,2) | 0.0052              |
 # > 
-# > We can observe that this regularization due to quantization becomes significant even for FP16 and for less precise numbers it should definitely be accounted for. This is interesting on its own but let's get back to the derivatives.
+# > We can observe that this regularization due to quantization becomes significant for FP8 and for FP4 it should definitely be accounted for. This is interesting on its own but let's get back to the derivatives.
 # 
 # But overflow becomes *very* prominent at such low precision, so a more accurate way of thinking about our quantizer is like HardTanh: it has derivative of 1 inside a linear region and 0 everywhere else. Doing so eliminates the discrepancy between forward and backward passes and reduces noise outside the linear region. There's a little subtlety about how to define this linear region. Earlier we found the maximum representable number as $2^{2^E - B} \cdot (1 - 2^{-M-1})$ (if infinity is omitted). However, the linear region of our quantizer should go a bit beyond that to cover the neighborhood of the largest number properly. Thus the derivative threshold should be just $2^{2^E - B}$. Putting it all together we get a `minifloat()` autograd function:
 
@@ -397,7 +439,7 @@ for layer in quantized_layers:
 
 # Fake quantizer must *never* be in-place or otherwise modify real weights! This prevents small backprop steps to accumulate and change a quantized value which in turn leads to total training standstill. 
 
-# Another important thing is initialization. Now with modern powerful hardware able to run big models in a overparameterized regime the problem of vanishing/exploding gradients is rarely observed. But low precision and limited range of minifloats bring it back in the **boldest** form possible! Our quantizer underflows and saturates easily. Without proper initialization training won't even start. Usual unit-variance initializers based on theoretical variance estimates, like He or Xavier, are too unstable - small deviations accumulate real fast. Sometimes they work, sometimes they don't. A more reliable way is to use an explicit iterative data-based procedure from [Mishkin (2015)](https://arxiv.org/pdf/1511.06422.pdf) or similar:
+# Another important thing is initialization. Now with modern powerful hardware able to run big models in a overparameterized regime the problem of vanishing/exploding gradients is rarely observed. But low precision and limited range of minifloats bring it back in the **boldest** form possible! Our quantizer underflows and saturates easily. Without proper initialization training won't even start. Variance scaling at initialization is mandatory. But usual unit-variance initializers based on theoretical variance estimates, like He or Xavier, are too unstable - small deviations accumulate real fast. Sometimes they work, sometimes they don't. A more reliable way is to use an explicit iterative data-based procedure from [Mishkin (2015)](https://arxiv.org/pdf/1511.06422.pdf) or similar:
 
 # In[13]:
 
@@ -407,7 +449,7 @@ Image.open('init_cmp.png')
 
 # Sometimes He initializer diverges even at first layers while explicit variance scaling stays in line.
 
-# Finally, the limited range of a minifloat can become a problem when computing losses. Take our friend FP4(1,2,2), for example. The biggest number in FP4 is 3. If our activations are in FP4 this means that logits of the classifier are also limited to the range [-3,+3]. This creates a lower limit on the cross-entropy, because $-\log(\sigma(3)) \approx 0.049$. To allow cross-entropy to go all the way to 0 we need to add logit scaling during loss computation by some factor (about 4-5 for FP4). 
+# Finally, the limited range of a minifloat can become a problem when computing losses. Take our friend FP4(1,2,2), for example. The biggest number in FP4 is 3. If our activations are in FP4 this means that logits of the classifier are also limited to the range [-3,+3]. This creates a lower limit on the cross-entropy, because $\log(\sigma(3)) \approx -0.049$. To allow cross-entropy to go all the way to 0 we need to add logit scaling during loss computation by some factor (about 4-5 for FP4). 
 # 
 # > **Side thought.** The same is actually true for any non-linear functions. ReLU is safe but only because it has only two regimes and is scale-invariant. Other functions like $\tanh$ may not saturate because of insufficient range of minifloat inputs. Activations like Swish and SELU most likely lose their properties as well not only because of small range but because of the too discrete nature of the inputs. This suggests that number systems like FP4 may require their own special activation functions. Considering that FP4 has only 15 representable numbers (besides -0.0), it may be faster and easier to just create lookup tables for such functions. 
 
@@ -415,7 +457,7 @@ Image.open('init_cmp.png')
 
 # # Conclusion
 # 
-# Today we've peaked into an obscure area of low-precision floating point computation, generalized IEEE 754 format to arbitrary bit lengths and learned that at such extremes we should care even about things like multiplication tables. We've also created a minifloat quantizer for PyTorch and demonstrated that we can effectively train models in FP4. In a short detour we've also established a connection between floating point precision and $L_2$-regularization which is a fun little thing on its own. 
+# Today we've peeked into an obscure area of low-precision floating point computation, generalized IEEE 754 format to arbitrary bit lengths and learned that at such extremes we should care even about things like multiplication tables. We've also created a minifloat quantizer for PyTorch and demonstrated that we can effectively train models in FP4. In a short detour we've also established a connection between floating point precision and $L_2$-regularization which is a fun little thing on its own. 
 # 
 # Unfortunately, our quantizer is still not a *true* minifloat arithmetic, and many operations are performed in FP32 under the hood. The *true* minifloat arithmetic would perform rounding at every operation which would change results as minifloats aren't closed under addition nor multiplication: 2 + 0.75 in FP4 is equal to 2.75 which is not in FP4 and must be rounded up to 3. This rounding doesn't occur in our simulations and we need either proper hardware for that or software emulation at low level. PyTorch isn't really a place for such shenanigans. Imagine how cool it would be to have a FP4 or at least FP8 backend for PyTorch! But this is a story for another time. It's too late already. Good night.
 # 
