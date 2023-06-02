@@ -6,7 +6,16 @@
 
 -----------------------------------
 
-### [Wonderful Minifloats](minifloat_sim/main)
+### [Quantization-Induced Regularization](4_quantization_induced_regularization)
+
+Wanna know what quantization really does to your models? Come in and find out! **(NOT CLICKBAIT)**
+
+*June 1, 2023*
+
+-----------------------------------
+
+
+### [Wonderful Minifloats](3_wonderful_minifloats)
 
 Today we are diving (or at least getting our feet wet) into low-precision floating point arithmetic and create our own 4-bit float simulation in PyTorch
 
@@ -14,7 +23,7 @@ Today we are diving (or at least getting our feet wet) into low-precision floati
 
 -----------------------------------
 
-### [Data Versioning Done Right.](data_versioning_pt1/main)
+### [Data Versioning Done Right.](2_data_versioning_done_right_pt1)
 
 *(said with confidence to generate clicks; hopes that actual MLOps won't give him too much of a beating)*
 
@@ -24,7 +33,7 @@ Today we are talking about how to properly integrate data versioning into ML res
 
 -----------------------------------
 
-### [Argmax and Hidden Biases](hidden_bias_argmax/main)
+### [Argmax and Hidden Biases](1_argmax_and_hidden_biases)
 
 A short debugging case. Always check your probs!
 
@@ -32,7 +41,7 @@ A short debugging case. Always check your probs!
 
 -----------------------------------
 
-### [EMD Is Just MSE (Kinda)](emd_study_pt1/main)
+### [EMD Is Just MSE (Kinda)](0_emd_is_just_mse)
 
 **TL;DR** If you wanna optimize Earth Mover's distance between histograms without unnecessary hassle, just replace it with Manhattan or Euclidean distance and call it a day. If you want to know why, please welcome
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Notebooks with MyST Markdown &#8212; Neural Pasta</title>
+    <title>Argmax and Hidden Biases &#8212; Neural Pasta</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,6 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="EMD Is Just MSE (Kinda)" href="0_emd_is_just_mse.html" />
+    <link rel="prev" title="Data Versioning Done Right." href="2_data_versioning_done_right_pt1.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -111,24 +113,29 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="minifloat_sim/main.html">
+  <a class="reference internal" href="4_quantization_induced_regularization.html">
+   Quantization-Induced Regularization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3_wonderful_minifloats.html">
    Wonderful Minifloats
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="data_versioning_pt1/main.html">
+  <a class="reference internal" href="2_data_versioning_done_right_pt1.html">
    Data Versioning Done Right.
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="hidden_bias_argmax/main.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Argmax and Hidden Biases
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="emd_study_pt1/main.html">
+  <a class="reference internal" href="0_emd_is_just_mse.html">
    EMD Is Just MSE (Kinda)
   </a>
  </li>
@@ -191,7 +198,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/dmtlvn/dmtlvn.github.io/master?urlpath=tree/markdown-notebooks.md"
+        <a href="https://mybinder.org/v2/gh/dmtlvn/dmtlvn.github.io/master?urlpath=tree/1_argmax_and_hidden_biases.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -251,7 +258,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2Fmarkdown-notebooks.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2F1_argmax_and_hidden_biases.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -279,24 +286,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/markdown-notebooks.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download notebook file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-code"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="_sources/markdown-notebooks.md"
+        <a href="_sources/1_argmax_and_hidden_biases.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -307,7 +297,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -355,19 +345,19 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#an-example-cell">
-   An example cell
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Argmax and Hidden Biases
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-a-notebook-with-myst-markdown">
-   Create a notebook with MyST Markdown
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-root-of-all-evil">
+   The Root of All Evil
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quickly-add-yaml-metadata-for-myst-notebooks">
-   Quickly add YAML metadata for MyST Notebooks
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -379,7 +369,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Notebooks with MyST Markdown</h1>
+                <h1>Argmax and Hidden Biases</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -389,19 +379,19 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#an-example-cell">
-   An example cell
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Argmax and Hidden Biases
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-a-notebook-with-myst-markdown">
-   Create a notebook with MyST Markdown
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-root-of-all-evil">
+   The Root of All Evil
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quickly-add-yaml-metadata-for-myst-notebooks">
-   Quickly add YAML metadata for MyST Notebooks
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -414,51 +404,37 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="notebooks-with-myst-markdown">
-<h1>Notebooks with MyST Markdown<a class="headerlink" href="#notebooks-with-myst-markdown" title="Permalink to this headline">#</a></h1>
-<p>Jupyter Book also lets you write text-based notebooks using MyST Markdown.
-See <a class="reference external" href="https://jupyterbook.org/file-types/myst-notebooks.html">the Notebooks with MyST Markdown documentation</a> for more detailed instructions.
-This page shows off a notebook written in MyST Markdown.</p>
-<section id="an-example-cell">
-<h2>An example cell<a class="headerlink" href="#an-example-cell" title="Permalink to this headline">#</a></h2>
-<p>With MyST Markdown, you can define code cells with a directive like so:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="argmax-and-hidden-biases">
+<h1>Argmax and Hidden Biases<a class="headerlink" href="#argmax-and-hidden-biases" title="Permalink to this headline">#</a></h1>
+<hr class="docutils" />
+<p>Debugging deep learning models (and most of other ML models for that matter) can be really painful. Because of their probabilistic nature they often produce the worst kind of bugs: the model executes without any exceptions and results are reasonable most of the time, but <em>sometimes</em> the model spits out utter gibberish. And tracing down sources of these occasional errors can take hours or even days. So today I wanna share one debugging story so people can learn from my mistakes rather than from their own.</p>
+<p>While working on a face parsing project with my fellow colleagues we encountered a problem: a custom trained face parser was sporadically flickering on videos - switching left and right eyes randomly. However, on a test set it performed reasonably well. As we didn’t observe this problem on still images, we suspected that it has something to do with video consistency and tested various filtering methods to fix it. Filtering reduced left-right flickering to a degree but nearly  enough. We considered adding additional post-processing heuristics to separate left and right eyes, adding pretrained keypoint estimators to the pipeline and even to relax the requirements and merge them into a single class. But luckily the source of the problem has been found.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-root-of-all-evil">
+<h1>The Root of All Evil<a class="headerlink" href="#the-root-of-all-evil" title="Permalink to this headline">#</a></h1>
+<p>As it always turns out, the mistake was embarrassingly dumb and was hiding in the plain sight all along. All the results, and metrics for the face parser were reported <em><strong>after</strong></em> the argmax layer on top, which is kinda common thing to do. The problem with the argmax, however, is that it doesn’t care if the maximum value differs by 0.1 or by 0.001 - it destroys information. Take a look at these two predictions:</p>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
-</pre></div>
+<img alt="_images/1_argmax_and_hidden_biases_3_0.png" src="_images/1_argmax_and_hidden_biases_3_0.png" />
 </div>
 </div>
+<p>The first one is what people usually wanna get, the second one - meh. But if we were looking at argmax value only, we would get index 6 in both cases and any information about confidence of the prediction would be lost. This is exactly what happened to our face parser but worse. The left/right eye classes had largest probability most of the time so these classes were argmaxed correctly:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="_images/1_argmax_and_hidden_biases_5_0.png" src="_images/1_argmax_and_hidden_biases_5_0.png" />
 </div>
-<p>When your book is built, the contents of any <code class="docutils literal notranslate"><span class="pre">{code-cell}</span></code> blocks will be
-executed with your default Jupyter kernel, and their outputs will be displayed
-in-line with the rest of your content.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>Jupyter Book uses <a class="reference external" href="https://jupytext.readthedocs.io/en/latest/">Jupytext</a> to convert text-based files to notebooks, and can support <a class="reference external" href="https://jupyterbook.org/file-types/jupytext.html">many other text-based notebook files</a>.</p>
 </div>
+<p>I would go to a nearest crossroads and sign a deal with the Devil to get such accurate segmentation masks all the time. And the Devil definitely played his tricks on us, as he usually does, because these nice masks were hiding this under the argmax:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="_images/1_argmax_and_hidden_biases_7_0.png" src="_images/1_argmax_and_hidden_biases_7_0.png" />
+</div>
+</div>
+<p>So despite the correct masks our model had actually little to no distinction between left and right eyes whatsoever! After examining more images we found out that this is a systematic behavior, so definitely something was wrong with our training setup. These kinds of problems are much easier to track down than occasional errors. As you can guess, the problem was hiding in the augmentation pipeline. There was a random flip augmentation but due to a mistake in the code labels weren’t changed from left to right correctly. Additionally, due to augmentation probabilities, this mistake didn’t appear all the time so predictions were <em>almost</em> correct. The model averaged everything out and developed a strong bias towards left-right indifference. Obviously, after fixing this mistake with augmentations the problem went away, the network learnt to tell left from right and flickering on videos disappeared.</p>
 </section>
-<section id="create-a-notebook-with-myst-markdown">
-<h2>Create a notebook with MyST Markdown<a class="headerlink" href="#create-a-notebook-with-myst-markdown" title="Permalink to this headline">#</a></h2>
-<p>MyST Markdown notebooks are defined by two things:</p>
-<ol class="simple">
-<li><p>YAML metadata that is needed to understand if / how it should convert text files to notebooks (including information about the kernel needed).
-See the YAML at the top of this page for example.</p></li>
-<li><p>The presence of <code class="docutils literal notranslate"><span class="pre">{code-cell}</span></code> directives, which will be executed with your book.</p></li>
-</ol>
-<p>That’s all that is needed to get started!</p>
-</section>
-<section id="quickly-add-yaml-metadata-for-myst-notebooks">
-<h2>Quickly add YAML metadata for MyST Notebooks<a class="headerlink" href="#quickly-add-yaml-metadata-for-myst-notebooks" title="Permalink to this headline">#</a></h2>
-<p>If you have a markdown file and you’d like to quickly add YAML metadata to it, so that Jupyter Book will treat it as a MyST Markdown Notebook, run the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span><span class="o">-</span><span class="n">book</span> <span class="n">myst</span> <span class="n">init</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">markdownfile</span><span class="o">.</span><span class="n">md</span>
-</pre></div>
-</div>
-</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
+<p>Argmax is a trick of the Devil: its robustness to small errors in probability predictions (when they are confident) is its blessing but also a curse as it can confuse strong biases of the model with a noise. So yeah, don’t forget to check your probs, I guess.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -488,6 +464,20 @@ See the YAML at the top of this page for example.</p></li>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="2_data_versioning_done_right_pt1.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Data Versioning Done Right.</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="0_emd_is_just_mse.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">EMD Is Just MSE (Kinda)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>
