@@ -4,8 +4,9 @@
 format: jb-book
 root: intro
 chapters:
-- file: minifloat_sim/main
-- file: data_versioning_pt1/main
-- file: hidden_bias_argmax/main
-- file: emd_study_pt1/main
+- file: 4_quantization_induced_regularization
+- file: 3_wonderful_minifloats
+- file: 2_data_versioning_done_right_pt1
+- file: 1_argmax_and_hidden_biases
+- file: 0_emd_is_just_mse
 
