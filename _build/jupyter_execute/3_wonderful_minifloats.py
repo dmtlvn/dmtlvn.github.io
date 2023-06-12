@@ -17,6 +17,8 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # # Wonderful Minifloats
 # 
+# May 3, 2023
+# 
 # ---------------------------------------------------
 # 
 # Today I wanna talk about training deep neural networks for low performance devices. A common way to speed up neural nets is quantization. There are two main types of quantization: 

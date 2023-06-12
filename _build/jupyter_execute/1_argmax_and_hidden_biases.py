@@ -13,6 +13,8 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # # Argmax and Hidden Biases
 # 
+# *Apr 3, 2023*
+# 
 # ----------------------------------
 # 
 # Debugging deep learning models (and most of other ML models for that matter) can be really painful. Because of their probabilistic nature they often produce the worst kind of bugs: the model executes without any exceptions and results are reasonable most of the time, but *sometimes* the model spits out utter gibberish. And tracing down sources of these occasional errors can take hours or even days. So today I wanna share one debugging story so people can learn from my mistakes rather than from their own.

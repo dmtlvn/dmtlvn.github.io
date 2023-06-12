@@ -2,13 +2,22 @@
 
 **NEURAL PASTA**
 
-*ML/DL shitposting is done here.*
+*ML/DL shitposting is done here. Completely GPT-free!*
 
 -----------------------------------
 
+### [From ArcFace to SimpleFace](5_from_arcface_to_simpleface)
+
+Let's rethink this workhorse of face recognition tonight.
+
+*June 12, 2023*
+
+-----------------------------------
+
+
 ### [Quantization-Induced Regularization](4_quantization_induced_regularization)
 
-Wanna know what quantization really does to your models? Come in and find out! **(NOT CLICKBAIT)**
+Wanna know what quantization really does to your models? Come in and find out! **(NOT CLICKBAIT!)**
 
 *June 1, 2023*
 

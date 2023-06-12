@@ -3,6 +3,10 @@
 
 # # Quantization-Induced Regularization
 # 
+# *Jun 1, 2023*
+# 
+# ---------------------------------------------------
+# 
 # During our [minifloat adventure](3_wonderful_minifloats.ipynb) it became clear that low-precision arithmetic produces quantization noise so strong that it must change statistical properties of ML models. This led me to a thought: in the simplest case of the linear regression how this quantization noise would affect the model? Here's a small note on that. *(Hint is in the title)*.
 
 # # Formulation
@@ -98,7 +102,7 @@
 # 
 # $$ L(w) = \mathbb{E}_{D} \left[ \left( y - x^T w \right)^2 \right] + \sigma^2 \| w \|^2 $$
 # 
-# So again we get an $L_2$-regularized model but under the assumption that the data is whitened and normalized. The regularization strength in this case bacomes:
+# So again we get an $L_2$-regularized model but under the assumption that the data is whitened and normalized. The regularization strength in this case becomes:
 # 
 # $$ \lambda = \frac{1}{12} p^2 $$
 # 
@@ -123,6 +127,7 @@ NOISE_SIGMA = 1e-1
 ALPHA = 1000 * NOISE_SIGMA**2
 
 def generate_data(n, d):
+    # remove any random correlations
     X = PCA(whiten = True).fit_transform(np.random.randn(n, d))
     w = np.random.randn(d)
     y = np.dot(X, w)
@@ -145,7 +150,7 @@ for i in range(DATA_ITER):
     coef_noise = average_model_over_noise(X, y, NOISE_SIGMA, NOISE_ITER)
     error_norm.append(np.linalg.norm(coef_reg - coef_noise))
     
-np.std(error_norm)
+np.mean(error_norm)
 
 
 # # Implications

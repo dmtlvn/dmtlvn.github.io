@@ -3,6 +3,8 @@
 
 # # Data Versioning Done Right.
 # 
+# *Apr 6, 2023*
+# 
 # ---------------------------------------------------------
 # 
 # Reproducibility is one of the most important problems in mid- to large-scale ML projects. As the project grows, it accumulates dependencies, legacy and unclear use cases and keeping all that mess organized sometimes requires big changes to development practices and infrastructure. Reproducibility is a multifaceted issue with many aspects to it, but today I want to talk particularly about data versioning.
