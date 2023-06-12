@@ -115,6 +115,11 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="5_from_arcface_to_simpleface.html">
+   From ArcFace to SimpleFace
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="4_quantization_induced_regularization.html">
    Quantization-Induced Regularization
   </a>
@@ -406,6 +411,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="argmax-and-hidden-biases">
 <h1>Argmax and Hidden Biases<a class="headerlink" href="#argmax-and-hidden-biases" title="Permalink to this headline">#</a></h1>
+<p><em>Apr 3, 2023</em></p>
 <hr class="docutils" />
 <p>Debugging deep learning models (and most of other ML models for that matter) can be really painful. Because of their probabilistic nature they often produce the worst kind of bugs: the model executes without any exceptions and results are reasonable most of the time, but <em>sometimes</em> the model spits out utter gibberish. And tracing down sources of these occasional errors can take hours or even days. So today I wanna share one debugging story so people can learn from my mistakes rather than from their own.</p>
 <p>While working on a face parsing project with my fellow colleagues we encountered a problem: a custom trained face parser was sporadically flickering on videos - switching left and right eyes randomly. However, on a test set it performed reasonably well. As we didn’t observe this problem on still images, we suspected that it has something to do with video consistency and tested various filtering methods to fix it. Filtering reduced left-right flickering to a degree but nearly  enough. We considered adding additional post-processing heuristics to separate left and right eyes, adding pretrained keypoint estimators to the pipeline and even to relax the requirements and merge them into a single class. But luckily the source of the problem has been found.</p>

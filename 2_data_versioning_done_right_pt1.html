@@ -115,6 +115,11 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="5_from_arcface_to_simpleface.html">
+   From ArcFace to SimpleFace
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="4_quantization_induced_regularization.html">
    Quantization-Induced Regularization
   </a>
@@ -416,6 +421,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="data-versioning-done-right">
 <h1>Data Versioning Done Right.<a class="headerlink" href="#data-versioning-done-right" title="Permalink to this headline">#</a></h1>
+<p><em>Apr 6, 2023</em></p>
 <hr class="docutils" />
 <p>Reproducibility is one of the most important problems in mid- to large-scale ML projects. As the project grows, it accumulates dependencies, legacy and unclear use cases and keeping all that mess organized sometimes requires big changes to development practices and infrastructure. Reproducibility is a multifaceted issue with many aspects to it, but today I want to talk particularly about data versioning.</p>
 <p>Data versioning is a practice/tool which allows you to keep your datasets and training code in sync. As the project grows so does the dataset. The training data is often composed of multiple open-source and private dataset which are stored in different formats, serve different purposes and require revision every now and then. This makes it really easy to forget which data a particular version of your model was trained on. When you add preprocessing into the mix, things get even more complicated. Data preprocessing is often a time-consuming calculation, and I’ve seen how people (and me as well) follow this anti-pattern of writing a standalone data preprocessing script, which dumps results into some folder and then use that folder as a “dataset” for the model training. It is pretty bad for reproducibility on itself but it can also lead to even bigger problems later on.</p>

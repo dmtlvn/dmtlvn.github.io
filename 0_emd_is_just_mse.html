@@ -116,6 +116,11 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="5_from_arcface_to_simpleface.html">
+   From ArcFace to SimpleFace
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="4_quantization_induced_regularization.html">
    Quantization-Induced Regularization
   </a>
@@ -447,6 +452,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="emd-is-just-mse-kinda">
 <h1>EMD Is Just MSE (Kinda)<a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h1>
+<p><em>Mar 31, 2023</em></p>
 <hr class="docutils" />
 <p>Comparison of data distributions is a frequent task in machine learning and data science. It arised all over the field. In deep learning, in particular, there’s at least one famous context for it: minimizing the difference between the distribution of latents gaussian distribution during VAE training. It is traditionally solved by minimizing a <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a>. Training GANs is essentially a distribution matching problem. This distribution matching problem is very complex and requires a whole neural network (discriminator) to compare distributions. But smaller distribution matching subproblems arise all over GANs, which can be solved explicitly using some metric, distance or divergence on distributions. One such distance is <a class="reference external" href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wasserstein distance</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Earth_mover%27s_distance">Earth Mover’s Distance (EMD)</a> in particular. So let’s talk about one particular interpretation of EMD.</p>
 </section>

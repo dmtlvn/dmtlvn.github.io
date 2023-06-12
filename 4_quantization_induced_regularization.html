@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Wonderful Minifloats" href="3_wonderful_minifloats.html" />
-    <link rel="prev" title="NRLHL PASSTA" href="intro.html" />
+    <link rel="prev" title="From ArcFace to SimpleFace" href="5_from_arcface_to_simpleface.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -116,6 +116,11 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="5_from_arcface_to_simpleface.html">
+   From ArcFace to SimpleFace
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Quantization-Induced Regularization
@@ -438,6 +443,8 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="quantization-induced-regularization">
 <h1>Quantization-Induced Regularization<a class="headerlink" href="#quantization-induced-regularization" title="Permalink to this headline">#</a></h1>
+<p><em>Jun 1, 2023</em></p>
+<hr class="docutils" />
 <p>During our <a class="reference internal" href="3_wonderful_minifloats.html"><span class="doc std std-doc">minifloat adventure</span></a> it became clear that low-precision arithmetic produces quantization noise so strong that it must change statistical properties of ML models. This led me to a thought: in the simplest case of the linear regression how this quantization noise would affect the model? Here’s a small note on that. <em>(Hint is in the title)</em>.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="formulation">
@@ -515,7 +522,7 @@ title="Print to PDF"
 <p>Notice that we can always transform our problem by standardizing <span class="math notranslate nohighlight">\(y\)</span> as well as whitening <span class="math notranslate nohighlight">\(x\)</span>, so <span class="math notranslate nohighlight">\(\mathbb{E}_{D} \left[ y^2 \right] = 1\)</span> and <span class="math notranslate nohighlight">\(\Sigma_X = I\)</span>. And again, by noticing that addition of a constant doesn’t change the minimum of a function, we get:</p>
 <div class="math notranslate nohighlight">
 \[ L(w) = \mathbb{E}_{D} \left[ \left( y - x^T w \right)^2 \right] + \sigma^2 \| w \|^2 \]</div>
-<p>So again we get an <span class="math notranslate nohighlight">\(L_2\)</span>-regularized model but under the assumption that the data is whitened and normalized. The regularization strength in this case bacomes:</p>
+<p>So again we get an <span class="math notranslate nohighlight">\(L_2\)</span>-regularized model but under the assumption that the data is whitened and normalized. The regularization strength in this case becomes:</p>
 <div class="math notranslate nohighlight">
 \[ \lambda = \frac{1}{12} p^2 \]</div>
 <p>I was looking for ways to verify these results, and the <em>proper</em> way to do this is to fit two linear models - the one on the “clean” data with <span class="math notranslate nohighlight">\(L_2\)</span> prior, and another one on the noisy data without <span class="math notranslate nohighlight">\(L_2\)</span> prior - and run a test for coefficient equality. But unfortunately statistical tests for equality of linear regression coefficients I managed to find aren’t suited for this kind of a problem. Wald test compares regression coefficients to a hypothesized value, not another parameter. Chow test requires the same model to be fitted on multiple data groups but we have different ones. Z-test requires independent data samples for two models, but our data is definitely not independent. So I decided to just brute-force my way out of this by running extensive simulations to demonstrate that the difference between two parameter vectors converges to zero, which it does indeed:</p>
@@ -537,6 +544,7 @@ title="Print to PDF"
 <span class="n">ALPHA</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">NOISE_SIGMA</span><span class="o">**</span><span class="mi">2</span>
 
 <span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="c1"># remove any random correlations</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">whiten</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -559,12 +567,12 @@ title="Print to PDF"
     <span class="n">coef_noise</span> <span class="o">=</span> <span class="n">average_model_over_noise</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">NOISE_SIGMA</span><span class="p">,</span> <span class="n">NOISE_ITER</span><span class="p">)</span>
     <span class="n">error_norm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">coef_reg</span> <span class="o">-</span> <span class="n">coef_noise</span><span class="p">))</span>
     
-<span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">error_norm</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">error_norm</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.690064795791926e-05
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0003714646868865354
 </pre></div>
 </div>
 </div>
@@ -610,11 +618,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="5_from_arcface_to_simpleface.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+            <p class="prev-next-title">From ArcFace to SimpleFace</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="3_wonderful_minifloats.html" title="next page">
