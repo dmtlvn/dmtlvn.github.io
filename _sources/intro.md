@@ -6,6 +6,15 @@
 
 -----------------------------------
 
+### [There's No Test Set](6_there_is_no_test_set)
+
+A small note on the limits of the cornerstone ML best practice.
+
+*June 28, 2023*
+
+-----------------------------------
+
+
 ### [From ArcFace to SimpleFace](5_from_arcface_to_simpleface)
 
 Let's rethink this workhorse of face recognition tonight.

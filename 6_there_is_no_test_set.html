@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>NRLHL PASSTA &#8212; Neural Pasta</title>
+    <title>There’s No Test Set &#8212; Neural Pasta</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,7 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="There’s No Test Set" href="6_there_is_no_test_set.html" />
+    <link rel="next" title="From ArcFace to SimpleFace" href="5_from_arcface_to_simpleface.html" />
+    <link rel="prev" title="NRLHL PASSTA" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -106,15 +107,15 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     NRLHL PASSTA
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="6_there_is_no_test_set.html">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    There’s No Test Set
   </a>
  </li>
@@ -199,6 +200,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/dmtlvn/dmtlvn.github.io/master?urlpath=tree/6_there_is_no_test_set.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -238,7 +268,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/dmtlvn/dmtlvn.github.io/issues/new?title=Issue%20on%20page%20%2F6_there_is_no_test_set.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -266,7 +296,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/intro.md"
+        <a href="_sources/6_there_is_no_test_set.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -277,7 +307,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -325,53 +355,19 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#there-s-no-test-set">
-   <span class="xref myst">
-    There’s No Test Set
-   </span>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   There’s No Test Set
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-arcface-to-simpleface">
-   <span class="xref myst">
-    From ArcFace to SimpleFace
-   </span>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#squaring-the-circle">
+   Squaring The Circle
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quantization-induced-regularization">
-   <span class="xref myst">
-    Quantization-Induced Regularization
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#wonderful-minifloats">
-   <span class="xref myst">
-    Wonderful Minifloats
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-versioning-done-right">
-   <span class="xref myst">
-    Data Versioning Done Right.
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#argmax-and-hidden-biases">
-   <span class="xref myst">
-    Argmax and Hidden Biases
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#emd-is-just-mse-kinda">
-   <span class="xref myst">
-    EMD Is Just MSE (Kinda)
-   </span>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -383,7 +379,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>NRLHL PASSTA</h1>
+                <h1>There’s No Test Set</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -393,53 +389,19 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#there-s-no-test-set">
-   <span class="xref myst">
-    There’s No Test Set
-   </span>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   There’s No Test Set
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-arcface-to-simpleface">
-   <span class="xref myst">
-    From ArcFace to SimpleFace
-   </span>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#squaring-the-circle">
+   Squaring The Circle
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quantization-induced-regularization">
-   <span class="xref myst">
-    Quantization-Induced Regularization
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#wonderful-minifloats">
-   <span class="xref myst">
-    Wonderful Minifloats
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-versioning-done-right">
-   <span class="xref myst">
-    Data Versioning Done Right.
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#argmax-and-hidden-biases">
-   <span class="xref myst">
-    Argmax and Hidden Biases
-   </span>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#emd-is-just-mse-kinda">
-   <span class="xref myst">
-    EMD Is Just MSE (Kinda)
-   </span>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -452,57 +414,45 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="nrlhl-passta">
-<h1><strong>NRLHL PASSTA</strong><a class="headerlink" href="#nrlhl-passta" title="Permalink to this headline">#</a></h1>
-<p><strong>NEURAL PASTA</strong></p>
-<p><em>ML/DL shitposting is done here. Completely GPT-free!</em></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="there-s-no-test-set">
+<h1>There’s No Test Set<a class="headerlink" href="#there-s-no-test-set" title="Permalink to this headline">#</a></h1>
+<p><em>This note was born after a job interview at which I was asked to “name three Best Practices™ in deep learning”. Putting aside the adequacy of this exact formulation, it got me thinking: what are Best Practices™, and how are they best and to what extent. And how they serve people as a way to reduce cognitive load while solving a problem. So here are some thoughts about one of the key ML best practices.</em></p>
+<p><em>Jun 28, 2023</em></p>
 <hr class="docutils" />
-<section id="there-s-no-test-set">
-<h2><a class="reference internal" href="6_there_is_no_test_set.html"><span class="doc std std-doc">There’s No Test Set</span></a><a class="headerlink" href="#there-s-no-test-set" title="Permalink to this headline">#</a></h2>
-<p>A small note on the limits of the cornerstone ML best practice.</p>
-<p><em>June 28, 2023</em></p>
+<p>Every book on machine learning tells us that to create a model properly we should split our data into three parts:</p>
+<ol class="simple">
+<li><p><strong>Training set</strong> - an actual training data which the model is fitted to.</p></li>
+<li><p><strong>Validation set</strong> - a held-out data which is used to tune the model and select hyper-parameters based on metrics computed over this set.</p></li>
+<li><p><strong>Test set</strong> - another held-out data which is used for model evaluation after it was trained and tuned.</p></li>
+</ol>
+<p>This approach is described in every book, paper, article, blog post and tutorial. You can find it on <a class="reference external" href="https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets">wiki</a>, in lecture <a class="reference external" href="https://www.cs.toronto.edu/~lczhang/321/notes/notes09.pdf">notes</a> and in Bishop’s book, which is considered by many an ML Bible.  It’s a best practice, thus many ML practitioners don’t think of it too much. It is seen as some common sense knowledge which doesn’t require any explanation. But I would argue that a <em>proper</em> test set is like a perfect circle: it exists only on paper and here’s why.</p>
 </section>
-<hr class="docutils" />
-<section id="from-arcface-to-simpleface">
-<h2><a class="reference internal" href="5_from_arcface_to_simpleface.html"><span class="doc std std-doc">From ArcFace to SimpleFace</span></a><a class="headerlink" href="#from-arcface-to-simpleface" title="Permalink to this headline">#</a></h2>
-<p>Let’s rethink this workhorse of face recognition tonight.</p>
-<p><em>June 12, 2023</em></p>
+<section class="tex2jax_ignore mathjax_ignore" id="squaring-the-circle">
+<h1>Squaring The Circle<a class="headerlink" href="#squaring-the-circle" title="Permalink to this headline">#</a></h1>
+<p>Chances are, you may have been confused at some point in your life by validation/test sets and wondered, what’s the difference between the two, because the Internet is <em><a class="reference external" href="https://www.google.com/search?q=test+vs+validation+set">full</a></em> of articles explaining the distinction and purpose of these concepts. This means, probably, that the line is kinda thin between them which puts people into confusion. And because there’s plenty of information on the topic, I won’t go through the definition but address the elephant in the room right away.</p>
+<p>By definition we accept some information leak from the val set to the model. The purpose of the test set, however, is to provide an unbiased estimate of the model’s performance, which means that there must be <em>absolutely no information</em> flowing from the test set to the model to prevent any overfitting. But what happens in practice is:</p>
+<ol class="simple">
+<li><p>We obtain a model using a training/validation data</p></li>
+<li><p>We evaluate it on a “test set”</p></li>
+<li><p>We get unsatisfactory results</p></li>
+<li><p>We go back to the drawing board and tweak a model</p></li>
+</ol>
+<p>Statistical theory kinda assumes that we should stop at step 3 and live with it. But every sane person would still go to step 4 because we don’t need <em>some</em> model - we need the model which <em>solves a problem well</em>. And at this exact moment the information from the test set has leaked into the model through our knowledge of the target metric. This is called <em>peeking</em>. It renders our test set invalid, and we need to go and get a new one. And this is what creates a confusion about test/val sets for everyone who has solved a real ML problem, because <em>both of them</em> leak information. So there’s a dilemma: either have a large supply of fresh data at the development stage or accept some level of overfitting at the production stage. Data is expensive, so the choice is obvious.</p>
+<p>This changes our perspective on model evaluation a bit. Instead of thinking about a test metric as a true measure of model performance, we should ask by how much does our test set reduce overfit. And the answer heavily depends on the model and the task at hand. Kagglers, for example, know very well that a test metric can be very deceiving. Additionally, a test set may have a domain shift relative to the train/val sets, in which case the problem becomes even worse.</p>
+<p>This implicit peeking puts an expiration date on your test sets: the more experiments you do with it, the more information from it is absorbed by the model and the less useful it is in providing good estimates. So you need to get a new one at some point. And then again and again. This is exactly what books tell us:</p>
+<blockquote>
+<div><p>Peeking is a consequence of using test-set performance to both choose a hypothesis and evaluate it. The way to avoid this is to really hold the test set out - lock it away until you are <a title="Never True"><strong>completely done with learning</strong></a> and simply wish to obtain an independent evaluation of the final hypothesis. And then, if you don’t like the results <a title="Good luck with that"><strong>you have to obtain, and lock away, a completely new test set</strong></a> if you want to go back and find a better hypothesis.</p>
+<p><em>Russel S., Norwig P., Artificial Intelligence: A Modern Approach, 2009</em></p>
+</div></blockquote>
+<p>But most of the time if ask for yet another data set, you’ll be told that <em>you need to be creative with the data</em>, because getting clean data (which a proper test set should be) costs a lot of time and money.</p>
 </section>
-<hr class="docutils" />
-<section id="quantization-induced-regularization">
-<h2><a class="reference internal" href="4_quantization_induced_regularization.html"><span class="doc std std-doc">Quantization-Induced Regularization</span></a><a class="headerlink" href="#quantization-induced-regularization" title="Permalink to this headline">#</a></h2>
-<p>Wanna know what quantization really does to your models? Come in and find out! <strong>(NOT CLICKBAIT!)</strong></p>
-<p><em>June 1, 2023</em></p>
-</section>
-<hr class="docutils" />
-<section id="wonderful-minifloats">
-<h2><a class="reference internal" href="3_wonderful_minifloats.html"><span class="doc std std-doc">Wonderful Minifloats</span></a><a class="headerlink" href="#wonderful-minifloats" title="Permalink to this headline">#</a></h2>
-<p>Today we are diving (or at least getting our feet wet) into low-precision floating point arithmetic and create our own 4-bit float simulation in PyTorch</p>
-<p><em>May 3, 2023</em></p>
-</section>
-<hr class="docutils" />
-<section id="data-versioning-done-right">
-<h2><a class="reference internal" href="2_data_versioning_done_right_pt1.html"><span class="doc std std-doc">Data Versioning Done Right.</span></a><a class="headerlink" href="#data-versioning-done-right" title="Permalink to this headline">#</a></h2>
-<p><em>(said with confidence to generate clicks; hopes that actual MLOps won’t give him too much of a beating)</em></p>
-<p>Today we are talking about how to properly integrate data versioning into ML research workflows.</p>
-<p><em>Apr 6, 2023</em></p>
-</section>
-<hr class="docutils" />
-<section id="argmax-and-hidden-biases">
-<h2><a class="reference internal" href="1_argmax_and_hidden_biases.html"><span class="doc std std-doc">Argmax and Hidden Biases</span></a><a class="headerlink" href="#argmax-and-hidden-biases" title="Permalink to this headline">#</a></h2>
-<p>A short debugging case. Always check your probs!</p>
-<p><em>Apr 3, 2023</em></p>
-</section>
-<hr class="docutils" />
-<section id="emd-is-just-mse-kinda">
-<h2><a class="reference internal" href="0_emd_is_just_mse.html"><span class="doc std std-doc">EMD Is Just MSE (Kinda)</span></a><a class="headerlink" href="#emd-is-just-mse-kinda" title="Permalink to this headline">#</a></h2>
-<p><strong>TL;DR</strong> If you wanna optimize Earth Mover’s distance between histograms without unnecessary hassle, just replace it with Manhattan or Euclidean distance and call it a day. If you want to know why, please welcome</p>
-<p><em>Mar 31, 2023</em></p>
-</section>
-<hr class="docutils" />
-<div class="toctree-wrapper compound">
-</div>
-</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
+<p>Unfortunately there’s no silver bullet, and the best <em>statistical</em> solution to the overfitting problem we have is a good old cross-validation which includes test splits as well. It won’t magically give you a perfect model but it’s the best we have. The problem with CV is pretty clear, however: sometimes it’s just too costly. And to make everything work well you also need to be certain that your train/val/test sets come from the same data distribution, which is not always the case. Sometimes a train set is a huge dump of uncurated data while the test set is carefully designed to cover necessary use cases. You can randomize data splits between different experiments to perform sort of a “dynamic cross-validation” while you tweak your model but then you cannot truly compare experiments.</p>
+<p>The real world is a messy place and what is considered a best practice in ML books may not be the optimal way to solve a problem when you take into account things books don’t talk about. And good or not, but nobody really cares about statistical purism. People want cost-effective solutions which are <em>good enough</em>.</p>
+<a class="reference internal image-reference" href="_images/it_depends_meme.jpg"><img alt="it-depends" class="align-center" src="_images/it_depends_meme.jpg" style="width: 300px; height: 400px;" /></a>
+<br>
+Have a good night.</section>
 
     <script type="text/x-thebe-config">
     {
@@ -531,10 +481,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="6_there_is_no_test_set.html" title="next page">
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="5_from_arcface_to_simpleface.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">There’s No Test Set</p>
+        <p class="prev-next-title">From ArcFace to SimpleFace</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quantization-Induced Regularization" href="4_quantization_induced_regularization.html" />
-    <link rel="prev" title="NRLHL PASSTA" href="intro.html" />
+    <link rel="prev" title="There’s No Test Set" href="6_there_is_no_test_set.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -116,6 +116,11 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="6_there_is_no_test_set.html">
+   There’s No Test Set
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    From ArcFace to SimpleFace
@@ -454,18 +459,10 @@ title="Print to PDF"
 <section class="tex2jax_ignore mathjax_ignore" id="stripped-to-the-bone">
 <h1>Stripped to the Bone<a class="headerlink" href="#stripped-to-the-bone" title="Permalink to this headline">#</a></h1>
 <p>While reviewing ArcFace paper I zoomed into a softmax logits plot (Fig. 4b):</p>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="_images/5_from_arcface_to_simpleface_4_0.png" src="_images/5_from_arcface_to_simpleface_4_0.png" />
-</div>
-</div>
+<a class="reference internal image-reference" href="_images/logits_cut.png"><img alt="logits-cut" class="align-center" src="_images/logits_cut.png" style="width: 520px; height: 400px;" /></a>
 <p>And I have so many questions about it! Like, what’s this? What is the point of this graph? These are just some squiggly lines. What is the reader supposed to make from them? Why do they only show us the interval between 20 and 100 degrees? What about angles below 20 and above 100 degrees?</p>
 <p>This useless piece of visual noise exists for the sole purpose of being there. So here’s a bit blurry but full plot which I found in this <a class="reference external" href="https://laniakea2018.wordpress.com/2018/06/16/lecture-9-arcface-additive-angular-margin-loss-for-deep-face-recognition/">nice article</a>:</p>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="_images/5_from_arcface_to_simpleface_6_0.png" src="_images/5_from_arcface_to_simpleface_6_0.png" />
-</div>
-</div>
+<a class="reference internal image-reference" href="_images/logits_full.png"><img alt="logits-full" class="align-center" src="_images/logits_full.png" style="width: 520px; height: 400px;" /></a>
 <p>Now this is how you do plots! We can now see the full range of angles and immediately make some observations.</p>
 <p><strong>Observation 1.</strong> <em>All</em> of these functions have critical points somewhere besides the actual optimum. This may not be a big deal, but it is kinda bad taste, IMHO. A proper well-behaved loss function should have one and only critical point - at the optimum and have a good reason for every single extra one.</p>
 <p><strong>Observation 2.</strong> ArcFace logits aren’t even monotonic. They have a local optimum at 180 degrees. This can make somebody have a really bad day, I’d say.</p>
@@ -486,7 +483,7 @@ title="Print to PDF"
 <p>Where was I? Ah, ArcFace doesn’t have a zero gradient at zero. And you know, which logit function also doesn’t have zero gradient at zero? Angle function. Here it is in all its glory:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/5_from_arcface_to_simpleface_8_0.png" src="_images/5_from_arcface_to_simpleface_8_0.png" />
+<img alt="_images/5_from_arcface_to_simpleface_5_0.png" src="_images/5_from_arcface_to_simpleface_5_0.png" />
 </div>
 </div>
 <p>It has several advantages:</p>
@@ -507,14 +504,14 @@ title="Print to PDF"
 <p>To verify that angular logits achieve the same so-called “large margin” separation I’ve ran the same toy experiment they use in papers. I took 10 identities with the most images from the LFW dataset, sampled 50 photos from each identity totalling at 500 RGB image 128x128. I then took an ImageNet-pretrained ResNet18 and fine-tuned it on these 500 images using ArcFace and SimpleFace. Training both models using a 2D feature actually was pretty tricky. In such low dimensions some corner cases arise which you generally wouldn’t care about with embedding dimension of 512. One such corner case is appearance of local minima in the gaps between <span class="math notranslate nohighlight">\(W_i\)</span> vectors. Let me illustrate:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/5_from_arcface_to_simpleface_11_0.png" src="_images/5_from_arcface_to_simpleface_11_0.png" />
+<img alt="_images/5_from_arcface_to_simpleface_8_0.png" src="_images/5_from_arcface_to_simpleface_8_0.png" />
 </div>
 </div>
 <p>Left plot shows how the loss function depends on a single sample. Because softmax creates both attractive and repulsive “forces” between intra- and inter-class samples, there’s a possibility to have a point of equilibrium when repulsive forces balance each other in the gaps due to symmetry. Depending on the data, this can cause two <span class="math notranslate nohighlight">\(W_i\)</span> vectors to collapse into one of such local minima if repulsion from the neighbors is stronger than between these two vectors. What really sucks is that this problem occurs near when weight vectors are distributed uniformly, which happens at near the optimum, when everything is almost settled. This problem goes away in higher dimensions, however, where there are much more symmetries which should align to balance everything just right. Actually in 3D already this problem practically goes away.</p>
 <p>The angular margin demonstrates the same tight clustering in these toy experiments as ArcFace. At lower dimensions it converges slightly faster, but speed of convergence evens out at higher dimensions, as random vectors are mostly perpendicular there and don’t fall into problem regions in the tail of ArcFace logits:</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/5_from_arcface_to_simpleface_13_0.png" src="_images/5_from_arcface_to_simpleface_13_0.png" />
+<img alt="_images/5_from_arcface_to_simpleface_10_0.png" src="_images/5_from_arcface_to_simpleface_10_0.png" />
 </div>
 </div>
 </section>
@@ -551,11 +548,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="6_there_is_no_test_set.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><strong>NRLHL PASSTA</strong></p>
+            <p class="prev-next-title">There’s No Test Set</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="4_quantization_induced_regularization.html" title="next page">
