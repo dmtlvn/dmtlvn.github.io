@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
+- file: 7_adam_vs_grad_clip
 - file: 6_there_is_no_test_set
 - file: 5_from_arcface_to_simpleface
 - file: 4_quantization_induced_regularization

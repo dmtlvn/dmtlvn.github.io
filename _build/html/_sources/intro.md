@@ -6,11 +6,20 @@
 
 -----------------------------------
 
+### [Adam vs. Grad Clip](7_adam_vs_grad_clip)
+
+They are like Batman vs. Superman - don't make much sense together.
+
+*Jun 30, 2023*
+
+-----------------------------------
+
+
 ### [There's No Test Set](6_there_is_no_test_set)
 
 A small note on the limits of the cornerstone ML best practice.
 
-*June 28, 2023*
+*Jun 28, 2023*
 
 -----------------------------------
 
@@ -19,7 +28,7 @@ A small note on the limits of the cornerstone ML best practice.
 
 Let's rethink this workhorse of face recognition tonight.
 
-*June 12, 2023*
+*Jun 12, 2023*
 
 -----------------------------------
 
@@ -28,7 +37,7 @@ Let's rethink this workhorse of face recognition tonight.
 
 Wanna know what quantization really does to your models? Come in and find out! **(NOT CLICKBAIT!)**
 
-*June 1, 2023*
+*Jun 1, 2023*
 
 -----------------------------------
 
