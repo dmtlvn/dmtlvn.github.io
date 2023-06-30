@@ -42,23 +42,25 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 # # Stripped to the Bone
 # 
 # While reviewing ArcFace paper I zoomed into a softmax logits plot (Fig. 4b):
-
-# In[2]:
-
-
-Image.open("assets/from_arcface_to_simpleface/logits_cut.png").resize((624, 480), Image.Resampling.BICUBIC)
-
-
+# 
+# ```{image} assets/from_arcface_to_simpleface/logits_cut.png
+# :alt: logits-cut
+# :width: 520px
+# :height: 400px
+# :align: center
+# ```
+# 
 # And I have so many questions about it! Like, what's this? What is the point of this graph? These are just some squiggly lines. What is the reader supposed to make from them? Why do they only show us the interval between 20 and 100 degrees? What about angles below 20 and above 100 degrees? 
 # 
 # This useless piece of visual noise exists for the sole purpose of being there. So here's a bit blurry but full plot which I found in this [nice article](https://laniakea2018.wordpress.com/2018/06/16/lecture-9-arcface-additive-angular-margin-loss-for-deep-face-recognition/):
-
-# In[3]:
-
-
-Image.open('assets/from_arcface_to_simpleface/logits_full.png').resize((520, 400), Image.Resampling.BICUBIC)
-
-
+# 
+# ```{image} assets/from_arcface_to_simpleface/logits_full.png
+# :alt: logits-full
+# :width: 520px
+# :height: 400px
+# :align: center
+# ```
+# 
 # Now this is how you do plots! We can now see the full range of angles and immediately make some observations.
 # 
 # **Observation 1.** *All* of these functions have critical points somewhere besides the actual optimum. This may not be a big deal, but it is kinda bad taste, IMHO. A proper well-behaved loss function should have one and only critical point - at the optimum and have a good reason for every single extra one. 
@@ -68,7 +70,7 @@ Image.open('assets/from_arcface_to_simpleface/logits_full.png').resize((520, 400
 # **Observation 3.** ArcFace logits are the only function which has *non-zero* slope at 0 degrees. Now that's interesting.
 # 
 # In practice they add some corrections to ArcFace (so-called *easy* margin and *hard* margin) which change the shape of the "tail" of the logits but they don't get rid of the abovementioned problems.
-# 
+
 # Let's think of the ArcFace a bit. The graph of the logits doesn't have a continuation to the left because the dot product gives you the angle along the shortest arc which is always between 0 and $\pi$. This means that a non-zero derivative of logits at 0 produces non-zero updates to both $W_i$ and $x_j$ no matter how close they are. Compare this to Softmax logits, for example, which have a zero-derivative at 0 degrees and gradient updates gradually die out when vectors get close. Softmax here is like $L_2$-distance and ArcFace is like $L_1$-distance, but on a sphere. This explains why plain softmax creates embeddings with blurry inter-class boundaries while ArcFace manages to achieve sharp separation. 
 # 
 # For the same reason the term *"margin"* cannot be really applied to the $m$ parameter of the ArcFace loss. It could be called a margin if there were negative angles available. In that case logits could go past zero and then converge at an angle $\theta = -m$ thus creating a *margin*. But angles are clipped at zero, and when the logit goes beyond it, the direction of the trajectory is just flipped back, so it constantly jiggles around zero. 
@@ -86,7 +88,7 @@ Image.open('assets/from_arcface_to_simpleface/logits_full.png').resize((520, 400
 # 
 # Where was I? Ah, ArcFace doesn't have a zero gradient at zero. And you know, which logit function also doesn't have zero gradient at zero? Angle function. Here it is in all its glory:
 
-# In[4]:
+# In[2]:
 
 
 plt.figure(figsize = (4,3))
@@ -118,7 +120,7 @@ plt.grid(alpha = 0.5)
 # 
 # To verify that angular logits achieve the same so-called "large margin" separation I've ran the same toy experiment they use in papers. I took 10 identities with the most images from the LFW dataset, sampled 50 photos from each identity totalling at 500 RGB image 128x128. I then took an ImageNet-pretrained ResNet18 and fine-tuned it on these 500 images using ArcFace and SimpleFace. Training both models using a 2D feature actually was pretty tricky. In such low dimensions some corner cases arise which you generally wouldn't care about with embedding dimension of 512. One such corner case is appearance of local minima in the gaps between $W_i$ vectors. Let me illustrate:
 
-# In[5]:
+# In[3]:
 
 
 import torch
@@ -196,7 +198,7 @@ plt.tight_layout()
 # 
 # The angular margin demonstrates the same tight clustering in these toy experiments as ArcFace. At lower dimensions it converges slightly faster, but speed of convergence evens out at higher dimensions, as random vectors are mostly perpendicular there and don't fall into problem regions in the tail of ArcFace logits:
 
-# In[6]:
+# In[4]:
 
 
 image1 = Image.open("assets/from_arcface_to_simpleface/arcface_clusters.png")
@@ -214,7 +216,7 @@ new_image
 # 
 # And if you ask me, if this did help with the face swapper and identity-attribute disentanglement - no, it didn't. Have a good night.
 
-# In[7]:
+# In[5]:
 
 
 import random

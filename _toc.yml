@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
+- file: 6_there_is_no_test_set
 - file: 5_from_arcface_to_simpleface
 - file: 4_quantization_induced_regularization
 - file: 3_wonderful_minifloats

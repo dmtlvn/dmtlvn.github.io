@@ -691,14 +691,17 @@ plt.tight_layout();
 # >  *The instinctive first choice would be a euclidean norm of $P$. But remember, that...*
 # 
 # ... and then dived into all the upper bounds stuff? So we have also probably learned to listen to our intuition a bit more.
+# 
+# ```{image} assets/emd_is_just_mse/meme.png
+# :alt: just-use-mse
+# :width: 500px
+# :height: 300px
+# :align: center
+# ```
+# <br>
+# Have a good night.
 
 # In[11]:
-
-
-Image.open("assets/emd_is_just_mse/meme.png")
-
-
-# In[12]:
 
 
 # import torch
