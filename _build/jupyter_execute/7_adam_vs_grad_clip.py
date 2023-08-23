@@ -29,11 +29,25 @@
 # 
 # We are interested in the $v_t$ part of the formula. Here $v_t$ is sort of an element-wise variance of the gradient $g_t$. Dividing by $v_t$ we force weight updates $\Delta w_t$ to have a fixed variance with some EMA fluctuations. 
 
-# # So What?
+# # What's Up with the Norm?
 # 
-# Gradients in neural networks have almost zero mean and so are weight updates. And when each component of the weight update has fixed variance, then its norm is also constant on average, no matter what the variance of the gradient is. So no matter what is the variance of the gradient, weight updates become normalized anyway. Which means that gradient normalization is redundant when used alongside Adam. Of course, it has *some* impact - skews first few steps until EMA statistics accumulate. But is it really that important? Depends on the problem you're trying to solve. In most cases you usually don't care about Adam warm-up at all. In the case of the DreamBooth, fine-tuning takes not many steps, and this scaling can make a difference on the final result. But you can achieve a similar effect by changing the learning rate. 
+# Recall how many parameters do your models typically have. I bet it would be at least millions but mostly closer to billions nowadays. So our gradient vector has **huge** dimensionality and we take a norm of it. But according to the concentration of measure theorem this norm converges to a constant as dimensionality grows (at least locally, where gradient distribution can be seen fixed). And it is clear that scaling the gradient by a constant under Adam won't change the weight update, since gradients are being renormalized anyway. But for the sake of completeness let's show this explicitly:
 # 
-# Testing this hypothesis is very simple: just comment the corresponding line of code and compare the results. And if you do that as I did, you'll see that the quality of generated images doesn't change while you shave off 10% of execution time. 
+# Let's first unravel the recursion in the Adam's formulas:
+# 
+# $$ m_t = \frac{1 - \beta_1}{1 - \beta_1^t} \sum_{i=1}^{t} g_t \beta_1^{t-i} = \sum_{i=1}^{t} A_{ti} g_i $$
+# $$ v_t = \frac{1 - \beta_2}{1 - \beta_2^t} \sum_{i=1}^{t} g_t^2 \beta_2^{t-i} = \sum_{i=1}^{t} B_{ti} g_i^2 $$
+# 
+# Here $A_{ti}$ and $B_{ti}$ are just weights, independent of $g_t$. Let's call $\hat{g}_t = \dfrac{g_t}{\|g_t\|}$. As the norm is approximately constant, it can be written as $\hat{g}_t \approx c \cdot g_t$. Let's plug it into EMA expressions:
+# 
+# $$ \hat{m}_t = \sum_{i=1}^{t} A_{ti} \hat{g}_i = c \cdot \sum_{i=1}^{t} A_{ti} g_i = c \cdot m_t$$
+# $$ \hat{v}_t = \sum_{i=1}^{t} B_{ti} \hat{g}_i^2 = c^2 \cdot \sum_{i=1}^{t} B_{ti} g_i = c^2 \cdot v_t$$
+# 
+# If we now plug it into weight update formula, the constant $c$ just cancels out:
+# 
+# $$ \frac{\hat{m}_t}{\sqrt{\hat{v}_t + \varepsilon}} \approx \frac{c m_t}{\sqrt{c^2 v_t + \varepsilon}} = \frac{m_t}{\sqrt{v_t + \varepsilon}} $$
+# 
+# Couple of notes on when this is more likely to be true. Our logic is based on the assumption that gradient distribution doesn't change a lot and individual components are independent. This corresponds to the fine-tuning regime, where the weight vector is near the minimum, so the consequitive gradients are less correlated and their distribution doesn't drift much. And this is exactly the case for the Dreambooth fine-tuning! Also testing this hypothesis was very simple: just comment the corresponding line of code and compare the results. And if you do that, you'll see that the quality of generated images doesn't change while you shave off 10% of execution time. 
 
 # # Conclusion
 # 
