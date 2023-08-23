@@ -373,8 +373,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#so-what">
-   So What?
+  <a class="reference internal nav-link" href="#what-s-up-with-the-norm">
+   What’s Up with the Norm?
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
@@ -412,8 +412,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#so-what">
-   So What?
+  <a class="reference internal nav-link" href="#what-s-up-with-the-norm">
+   What’s Up with the Norm?
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
@@ -456,10 +456,23 @@ title="Print to PDF"
 \[ \Delta w_t = -\lambda \frac{m_t}{\sqrt{v_t + \varepsilon}} \]</div>
 <p>We are interested in the <span class="math notranslate nohighlight">\(v_t\)</span> part of the formula. Here <span class="math notranslate nohighlight">\(v_t\)</span> is sort of an element-wise variance of the gradient <span class="math notranslate nohighlight">\(g_t\)</span>. Dividing by <span class="math notranslate nohighlight">\(v_t\)</span> we force weight updates <span class="math notranslate nohighlight">\(\Delta w_t\)</span> to have a fixed variance with some EMA fluctuations.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="so-what">
-<h1>So What?<a class="headerlink" href="#so-what" title="Permalink to this headline">#</a></h1>
-<p>Gradients in neural networks have almost zero mean and so are weight updates. And when each component of the weight update has fixed variance, then its norm is also constant on average, no matter what the variance of the gradient is. So no matter what is the variance of the gradient, weight updates become normalized anyway. Which means that gradient normalization is redundant when used alongside Adam. Of course, it has <em>some</em> impact - skews first few steps until EMA statistics accumulate. But is it really that important? Depends on the problem you’re trying to solve. In most cases you usually don’t care about Adam warm-up at all. In the case of the DreamBooth, fine-tuning takes not many steps, and this scaling can make a difference on the final result. But you can achieve a similar effect by changing the learning rate.</p>
-<p>Testing this hypothesis is very simple: just comment the corresponding line of code and compare the results. And if you do that as I did, you’ll see that the quality of generated images doesn’t change while you shave off 10% of execution time.</p>
+<section class="tex2jax_ignore mathjax_ignore" id="what-s-up-with-the-norm">
+<h1>What’s Up with the Norm?<a class="headerlink" href="#what-s-up-with-the-norm" title="Permalink to this headline">#</a></h1>
+<p>Recall how many parameters do your models typically have. I bet it would be at least millions but mostly closer to billions nowadays. So our gradient vector has <strong>huge</strong> dimensionality and we take a norm of it. But according to the concentration of measure theorem this norm converges to a constant as dimensionality grows (at least locally, where gradient distribution can be seen fixed). And it is clear that scaling the gradient by a constant under Adam won’t change the weight update, since gradients are being renormalized anyway. But for the sake of completeness let’s show this explicitly:</p>
+<p>Let’s first unravel the recursion in the Adam’s formulas:</p>
+<div class="math notranslate nohighlight">
+\[ m_t = \frac{1 - \beta_1}{1 - \beta_1^t} \sum_{i=1}^{t} g_t \beta_1^{t-i} = \sum_{i=1}^{t} A_{ti} g_i \]</div>
+<div class="math notranslate nohighlight">
+\[ v_t = \frac{1 - \beta_2}{1 - \beta_2^t} \sum_{i=1}^{t} g_t^2 \beta_2^{t-i} = \sum_{i=1}^{t} B_{ti} g_i^2 \]</div>
+<p>Here <span class="math notranslate nohighlight">\(A_{ti}\)</span> and <span class="math notranslate nohighlight">\(B_{ti}\)</span> are just weights, independent of <span class="math notranslate nohighlight">\(g_t\)</span>. Let’s call <span class="math notranslate nohighlight">\(\hat{g}_t = \dfrac{g_t}{\|g_t\|}\)</span>. As the norm is approximately constant, it can be written as <span class="math notranslate nohighlight">\(\hat{g}_t \approx c \cdot g_t\)</span>. Let’s plug it into EMA expressions:</p>
+<div class="math notranslate nohighlight">
+\[ \hat{m}_t = \sum_{i=1}^{t} A_{ti} \hat{g}_i = c \cdot \sum_{i=1}^{t} A_{ti} g_i = c \cdot m_t\]</div>
+<div class="math notranslate nohighlight">
+\[ \hat{v}_t = \sum_{i=1}^{t} B_{ti} \hat{g}_i^2 = c^2 \cdot \sum_{i=1}^{t} B_{ti} g_i = c^2 \cdot v_t\]</div>
+<p>If we now plug it into weight update formula, the constant <span class="math notranslate nohighlight">\(c\)</span> just cancels out:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\hat{m}_t}{\sqrt{\hat{v}_t + \varepsilon}} \approx \frac{c m_t}{\sqrt{c^2 v_t + \varepsilon}} = \frac{m_t}{\sqrt{v_t + \varepsilon}} \]</div>
+<p>Couple of notes on when this is more likely to be true. Our logic is based on the assumption that gradient distribution doesn’t change a lot and individual components are independent. This corresponds to the fine-tuning regime, where the weight vector is near the minimum, so the consequitive gradients are less correlated and their distribution doesn’t drift much. And this is exactly the case for the Dreambooth fine-tuning! Also testing this hypothesis was very simple: just comment the corresponding line of code and compare the results. And if you do that, you’ll see that the quality of generated images doesn’t change while you shave off 10% of execution time.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
